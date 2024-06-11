@@ -7,7 +7,7 @@
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <title>Document</title>
+        <title>Controle de Estoque</title>
     </head>
     <body class="semMargin_semPadding">
          <jsp:include page="/shareds_jsp/header.jsp" />
@@ -30,7 +30,6 @@
         </div>
         <script>
             function redirection(par) {
-            alert(par)
                 var elemento = document.getElementById("redirect");
                 elemento.value = par
             }

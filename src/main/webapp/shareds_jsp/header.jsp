@@ -1,5 +1,6 @@
 <%@ page  pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+
 <body class="semMargin_semPadding">
     <header>
        <form action="logout">
