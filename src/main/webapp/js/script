@@ -1,0 +1,9 @@
+function irParaLista(par) {
+    var elemento = document.getElementById("redirect");
+    elemento.value = par
+}
+
+function irParaCadastro(par) {
+    var elemento = document.getElementById("redirect");
+    elemento.value = par
+}
