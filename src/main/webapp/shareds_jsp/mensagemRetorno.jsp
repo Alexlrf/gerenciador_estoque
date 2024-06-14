@@ -7,6 +7,7 @@
 
 <style type="text/css">
     #msg {
+        z-index: 9;
         width: 95vw;
         background: green;
         color: white;
