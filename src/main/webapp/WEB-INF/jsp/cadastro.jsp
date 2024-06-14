@@ -38,7 +38,6 @@
     }
 
     function redirection(par) {
-    alert(par)
         var form = document.getElementById("form");
         form.action = 'redirect';
         form.method = 'post';

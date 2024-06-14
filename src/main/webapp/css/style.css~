@@ -1,0 +1,8 @@
+ .semMargin_semPadding {
+    margin:0;
+    padding:0;
+ }
+
+.container_pagina {
+    margin: 0 20px;
+}

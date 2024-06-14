@@ -4,7 +4,7 @@ import br.com.teste.model.entity.ContatoUsuario;
 
 import java.util.List;
 
-public interface IntTesteDAO {
+public interface IContatoDAO {
 
     String cadastrar(String nome, String email);
     List<ContatoUsuario> buscarContatosUsuarios();

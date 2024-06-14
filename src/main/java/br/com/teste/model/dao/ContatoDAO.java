@@ -8,11 +8,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TesteDAO implements IntTesteDAO {
+public class ContatoDAO implements IContatoDAO {
 
     private final Connection connection;
 
-    public TesteDAO(Connection connection) {
+    public ContatoDAO(Connection connection) {
         this.connection = connection;
     }
 

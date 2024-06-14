@@ -1,6 +1,6 @@
 package br.com.teste.servlets;
 
-import br.com.teste.acoes.Acao;
+import br.com.teste.acoes.IAcao;
 import br.com.teste.infra.LoggerApp;
 
 import javax.servlet.RequestDispatcher;
@@ -22,7 +22,7 @@ public class ControllerServlet extends HttpServlet {
             String acaoNome = req.getParameter("acao");
             Class<?> classe = Class.forName(pacote + acaoNome);
 
-            Acao acao = (Acao) classe.newInstance();
+            IAcao acao = (IAcao) classe.newInstance();
             String retorno = acao.execute(req, resp);
             RequestDispatcher dispatcher =  req.getRequestDispatcher(retorno);
             dispatcher.forward(req, resp);
