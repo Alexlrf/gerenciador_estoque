@@ -1,7 +1,7 @@
 package br.com.teste.model.dao;
 
 import br.com.teste.infra.GenericException;
-import br.com.teste.infra.LoggerApp;
+//import br.com.teste.infra.LoggerApp;
 import br.com.teste.model.entity.ContatoUsuario;
 
 import java.sql.*;
@@ -121,6 +121,6 @@ public class ContatoDAO implements IContatoDAO {
     }
 
     private void msgErro(String msg) {
-        LoggerApp.erro(msg, this.getClass());
+//        LoggerApp.erro(msg, this.getClass());
     }
 }

@@ -1,7 +1,7 @@
 package br.com.teste.servlets;
 
 import br.com.teste.acoes.IAcao;
-import br.com.teste.infra.LoggerApp;
+//import br.com.teste.infra.LoggerApp;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ public class ControllerServlet extends HttpServlet {
             RequestDispatcher dispatcher =  req.getRequestDispatcher(retorno);
             dispatcher.forward(req, resp);
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            LoggerApp.erro(e.getMessage(), ControllerServlet.class);
+//            LoggerApp.erro(e.getMessage(), ControllerServlet.class);
         }
     }
 }

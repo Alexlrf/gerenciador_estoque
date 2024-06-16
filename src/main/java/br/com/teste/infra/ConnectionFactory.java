@@ -16,7 +16,7 @@ public class ConnectionFactory {
                     "root"
             );
         } catch (SQLException | ClassNotFoundException ex) {
-            LoggerApp.erro(ex.getMessage(), ConnectionFactory.class);
+//            LoggerApp.erro(ex.getMessage(), ConnectionFactory.class);
             throw new GenericException(ex.getMessage());
         }
     }

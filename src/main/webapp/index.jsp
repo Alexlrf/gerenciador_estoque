@@ -14,9 +14,10 @@
     <body class="semMargin_semPadding">
          <jsp:include page="/shareds_jsp/header.jsp" />
         <div class="container justify-content-center">
-            <c:if test="${ret.length() > 0}">
-                <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
-            </c:if>
+
+            <c:set var="retorno" value="${ret}" scope="request" />
+            <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
+
             <form action="redirect" class="container d-flex col-9 flex-column">
                 <input type="hidden" id="acao"      name="acao"      value="">
                 <input type="hidden" id="redirect"  name="redirect"  value="">

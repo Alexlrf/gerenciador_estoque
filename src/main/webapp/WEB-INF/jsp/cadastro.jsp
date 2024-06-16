@@ -3,9 +3,9 @@
 
 <jsp:include page="/shareds_jsp/header.jsp" />
 
-<c:if test="${ret.length() > 0}">
-    <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
-</c:if>
+<c:set var="retorno" value="${ret}" scope="request" />
+<jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
+
 <form action="controller" method="post" id="form">
 
     <input type="hidden" id="acao"      name="acao"      value="Cadastrar">
