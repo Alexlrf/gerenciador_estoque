@@ -3,12 +3,15 @@ package br.com.teste.model.dao;
 import br.com.teste.infra.GenericException;
 import br.com.teste.infra.LoggerApp;
 import br.com.teste.model.entity.ContatoUsuario;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContatoDAO implements IContatoDAO {
+    private final Logger logger = LogManager.getLogger(ContatoDAO.class);
 
     private final Connection connection;
 
@@ -17,22 +20,23 @@ public class ContatoDAO implements IContatoDAO {
     }
 
     @Override
-    public String cadastrar(String nome, String email) {
+    public String cadastrar(ContatoUsuario usuario) {
         long generatedId;
         try {
-            String sql = "INSERT INTO public.usuario_teste_jsp (nome, email) VALUES (?, ?)";
+            String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, nome);
-            preparedStatement.setString(2, email);
+            preparedStatement.setString(1, usuario.getNome());
+            preparedStatement.setString(2, usuario.getEmail());
+            preparedStatement.setString(3, usuario.getTipo());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
             generatedId = resultSet.getLong("id");
             preparedStatement.close();
             resultSet.close();
-        } catch (SQLException ex) {
-            this.msgErro(ex.getMessage());
-            throw new GenericException(ex.getMessage());
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new GenericException(e.getMessage());
         }
         return "Inserção criada com registro: " + generatedId;
     }
@@ -52,10 +56,11 @@ public class ContatoDAO implements IContatoDAO {
                 contatoUsuario.setId(rs.getLong("id"));
                 contatoUsuario.setNome(rs.getString("nome"));
                 contatoUsuario.setEmail(rs.getString("email"));
+                contatoUsuario.setTipo(rs.getString("tipo"));
                 contatos.add(contatoUsuario);
             }
-        } catch (SQLException ex) {
-            this.msgErro(ex.getMessage());
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         } finally {
             try {
                 if (statement != null) {
@@ -64,34 +69,35 @@ public class ContatoDAO implements IContatoDAO {
                 if (rs != null) {
                     rs.close();
                 }
-            } catch (SQLException ex) {
-                this.msgErro(ex.getMessage());
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
             }
         }
         return contatos;
     }
 
     @Override
-    public String alterar(String id, String nome, String email) {
-        String sql = "Update public.usuario_teste_jsp set nome = ?, email = ? where id = ?";
+    public String alterar(String id, ContatoUsuario usuario) {
+        String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? where id = ?";
         PreparedStatement statement = null;
         try {
             statement = this.connection.prepareStatement(sql);
-            statement.setString(1, nome);
-            statement.setString(2, email);
-            statement.setLong(3, Long.parseLong(id));
+            statement.setString(1, usuario.getNome());
+            statement.setString(2, usuario.getEmail());
+            statement.setString(3, usuario.getTipo());
+            statement.setLong(4, Long.parseLong(id));
             statement.executeUpdate();
 
-        } catch(Exception ex) {
-            this.msgErro(ex.getMessage());
-            return "Erro ao alterar registro de nome: " + nome;
+        } catch(Exception e) {
+            logger.error(e.getMessage());
+            return String.format("Erro ao alterar registro de nome: %s", usuario.getNome());
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException ex) {
-                this.msgErro(ex.getMessage());
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
             }
         }
         return "Registro alterado com sucesso";
@@ -106,21 +112,18 @@ public class ContatoDAO implements IContatoDAO {
             statement.setLong(1, id);
             statement.executeUpdate();
             return "Registro de código: " + id + " excluído com sucesso";
-        } catch (SQLException ex) {
-            this.msgErro(ex.getMessage());
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
             return "Erro ao excluir registro de código: " + id;
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException ex) {
-                this.msgErro(ex.getMessage());
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
             }
         }
     }
 
-    private void msgErro(String msg) {
-        LoggerApp.erro(msg, this.getClass());
-    }
 }

@@ -1,7 +1,8 @@
 package br.com.teste.servlets;
 
 import br.com.teste.acoes.IAcao;
-import br.com.teste.infra.LoggerApp;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,9 +14,10 @@ import java.io.IOException;
 
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
+    private final Logger logger = LogManager.getLogger(ControllerServlet.class);
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             String pacote = "br.com.teste.acoes.";
@@ -26,8 +28,9 @@ public class ControllerServlet extends HttpServlet {
             String retorno = acao.execute(req, resp);
             RequestDispatcher dispatcher =  req.getRequestDispatcher(retorno);
             dispatcher.forward(req, resp);
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            LoggerApp.erro(e.getMessage(), ControllerServlet.class);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ServletException |
+                 IOException e) {
+            logger.error(String.format("Exception: [ %s ] Mensagem: %s", e.getClass().getSimpleName(), e.getMessage()));
         }
     }
 }

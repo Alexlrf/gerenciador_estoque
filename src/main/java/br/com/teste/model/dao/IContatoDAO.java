@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface IContatoDAO {
 
-    String cadastrar(String nome, String email);
+    String cadastrar(ContatoUsuario usuario);
     List<ContatoUsuario> buscarContatosUsuarios();
-    String alterar(String id, String nome, String email);
+    public String alterar(String id, ContatoUsuario usuario);
     String excluirContatoUsuario(Long id);
 }

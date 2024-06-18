@@ -3,9 +3,9 @@
 
 <jsp:include page="/shareds_jsp/header.jsp" />
 
-<c:if test="${ret.length() > 0}">
-    <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
-</c:if>
+<c:set var="retorno" value="${ret}" scope="request" />
+<jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
+
 <form action="controller" method="post" id="form">
 
     <input type="hidden" id="acao"      name="acao"      value="Cadastrar">
@@ -16,17 +16,18 @@
         <input type="text" name="nome" placeholder="Digite o nome" value="${param.nomeContato}" />
         <input type="email" name="email" placeholder="Digite o e-mail" value="${param.emailContato}" />
 
-        <select name="tipo">
-            <option value="1">Inicial</option>
-            <option value="2">Intermediário</option>
-            <option value="3">Antigo</option>
+        <select name="tipo" value="${param.tipoContato}">
+            <option value="${param.tipoContato.length() > 0 ? param.tipoContato : ''}">
+                ${param.tipoContato.length() > 0 ? param.tipoContato : 'Tipo'}
+            </option>
+            <option value="Cliente">Cliente</option>
+            <option value="Fornecedor">Fornecedor</option>
         </select>
 
         <input type="submit" value="Incluir" onclick="atribuirAcao()">
     </div>
     <input type="submit" value="Lista de Usuários" onclick="redirection('lista')"/>
 </form>
-
 
 <script>
     function atribuirAcao() {
