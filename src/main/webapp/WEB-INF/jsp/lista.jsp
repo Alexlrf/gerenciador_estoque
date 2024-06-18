@@ -8,6 +8,7 @@
 <div class="container_pagina">
 
     <c:set var="retorno" value="${ret}" scope="request" />
+    <c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
     <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
     <form action="controller" id="form">
@@ -16,6 +17,7 @@
         <input type="hidden" id="idContato"     name="idContato"    value="">
         <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
         <input type="hidden" id="emailContato"  name="emailContato" value="">
+        <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
         <div class="container-fluid d-flex justify-content-between mb-4">
             <input type="submit" value="Listar Contatos de Usuários">
             <button type="submit"
@@ -29,6 +31,7 @@
                 <th class="col-1">Código</th>
                 <th class="col-5">Nome</th>
                 <th class="col-4">E-mail</th>
+                <th class="col-4">Tipo</th>
                 <th class="col-2 text-center">Ações</th>
             </thead>
             <tbody>
@@ -37,13 +40,14 @@
                         <td>${contato.id}</td>
                         <td>${contato.nome}</td>
                         <td>${contato.email}</td>
+                        <td>${contato.tipo}</td>
                         <td>
                             <div style="display:flex; justify-content: space-evenly;">
                                 <a href="controller?id=${contato.id}&acao=Remover">
-                                    <img src="imagens/excluir.png" alt="  Imagem de icone de lixeira para excluir registro">
+                                    <img src="imagens/excluir.png" alt="Imagem de icone de lixeira para excluir registro" title="Excluir registro">
                                 </a>
-                                <button type="submit" style="border: none; background-color: transparent;" onclick="atribuirRedirect('cadastro', '${contato.id}', '${contato.nome}', '${contato.email}')">
-                                    <img src="imagens/editar.png" alt="  Imagem de icone de Lápis para editar registro" />
+                                <button type="submit" style="border: none; background-color: transparent;" onclick="atribuirRedirect('cadastro', '${contato.id}', '${contato.nome}', '${contato.email}', '${contato.tipo}')">
+                                    <img src="imagens/editar.png" alt="Imagem de icone de Lápis para editar registro"  title="Editar registro"/>
                                 </button>
                             </div>
                         </td>
@@ -54,7 +58,7 @@
     </form>
 </div>
 <script>
-        function atribuirRedirect(par, idCont, nmCont, emailCont) {
+        function atribuirRedirect(par, idCont, nmCont, emailCont, tipoCont) {
             var form = document.getElementById("form");
             form.action = 'redirect'
             form.method = 'post'
@@ -68,6 +72,8 @@
                 nmContatoEditar.value = nmCont
                 var emailContatoEditar = document.getElementById("emailContato");
                 emailContatoEditar.value = emailCont
+                var tipoContatoEditar = document.getElementById("tipoContato");
+                tipoContatoEditar.value = tipoCont
             }
         }
 

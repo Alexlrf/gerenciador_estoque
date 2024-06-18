@@ -3,7 +3,7 @@
 
 <c:choose>
     <c:when test="${ret.length() > 0}">
-        <div id="msg" class="container-fluid d-flex align-middle justify-content-between bg-success" style="visibility: visible">
+        <div id="msg" class="container-fluid d-flex align-middle justify-content-between bg-${cor_msg_retorno}" style="visibility: visible">
     </c:when>
     <c:otherwise>
         <div id="msg" class="container d-flex" style="visibility: hidden">

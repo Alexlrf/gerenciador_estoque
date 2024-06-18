@@ -17,13 +17,14 @@ public class ContatoDAO implements IContatoDAO {
     }
 
     @Override
-    public String cadastrar(String nome, String email) {
+    public String cadastrar(ContatoUsuario usuario) {
         long generatedId;
         try {
-            String sql = "INSERT INTO public.usuario_teste_jsp (nome, email) VALUES (?, ?)";
+            String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo) VALUES (?, ?, ?)";
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, nome);
-            preparedStatement.setString(2, email);
+            preparedStatement.setString(1, usuario.getNome());
+            preparedStatement.setString(2, usuario.getEmail());
+            preparedStatement.setString(3, usuario.getTipo());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
@@ -52,6 +53,7 @@ public class ContatoDAO implements IContatoDAO {
                 contatoUsuario.setId(rs.getLong("id"));
                 contatoUsuario.setNome(rs.getString("nome"));
                 contatoUsuario.setEmail(rs.getString("email"));
+                contatoUsuario.setTipo(rs.getString("tipo"));
                 contatos.add(contatoUsuario);
             }
         } catch (SQLException ex) {
@@ -72,19 +74,20 @@ public class ContatoDAO implements IContatoDAO {
     }
 
     @Override
-    public String alterar(String id, String nome, String email) {
-        String sql = "Update public.usuario_teste_jsp set nome = ?, email = ? where id = ?";
+    public String alterar(String id, ContatoUsuario usuario) {
+        String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? where id = ?";
         PreparedStatement statement = null;
         try {
             statement = this.connection.prepareStatement(sql);
-            statement.setString(1, nome);
-            statement.setString(2, email);
-            statement.setLong(3, Long.parseLong(id));
+            statement.setString(1, usuario.getNome());
+            statement.setString(2, usuario.getEmail());
+            statement.setString(3, usuario.getTipo());
+            statement.setLong(4, Long.parseLong(id));
             statement.executeUpdate();
 
         } catch(Exception ex) {
             this.msgErro(ex.getMessage());
-            return "Erro ao alterar registro de nome: " + nome;
+            return String.format("Erro ao alterar registro de nome: %s", usuario.getNome());
         } finally {
             try {
                 if (statement != null) {

@@ -16,6 +16,7 @@
         <div class="container justify-content-center">
 
             <c:set var="retorno" value="${ret}" scope="request" />
+            <c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
             <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
             <form action="redirect" class="container d-flex col-9 flex-column">
