@@ -1,14 +1,17 @@
 package br.com.teste.model.dao;
 
 import br.com.teste.infra.GenericException;
-//import br.com.teste.infra.LoggerApp;
+import br.com.teste.infra.LoggerApp;
 import br.com.teste.model.entity.ContatoUsuario;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContatoDAO implements IContatoDAO {
+    private final Logger logger = LogManager.getLogger(ContatoDAO.class);
 
     private final Connection connection;
 
@@ -31,9 +34,9 @@ public class ContatoDAO implements IContatoDAO {
             generatedId = resultSet.getLong("id");
             preparedStatement.close();
             resultSet.close();
-        } catch (SQLException ex) {
-            this.msgErro(ex.getMessage());
-            throw new GenericException(ex.getMessage());
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            throw new GenericException(e.getMessage());
         }
         return "Inserção criada com registro: " + generatedId;
     }
@@ -56,8 +59,8 @@ public class ContatoDAO implements IContatoDAO {
                 contatoUsuario.setTipo(rs.getString("tipo"));
                 contatos.add(contatoUsuario);
             }
-        } catch (SQLException ex) {
-            this.msgErro(ex.getMessage());
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         } finally {
             try {
                 if (statement != null) {
@@ -66,8 +69,8 @@ public class ContatoDAO implements IContatoDAO {
                 if (rs != null) {
                     rs.close();
                 }
-            } catch (SQLException ex) {
-                this.msgErro(ex.getMessage());
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
             }
         }
         return contatos;
@@ -85,16 +88,16 @@ public class ContatoDAO implements IContatoDAO {
             statement.setLong(4, Long.parseLong(id));
             statement.executeUpdate();
 
-        } catch(Exception ex) {
-            this.msgErro(ex.getMessage());
+        } catch(Exception e) {
+            logger.error(e.getMessage());
             return String.format("Erro ao alterar registro de nome: %s", usuario.getNome());
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException ex) {
-                this.msgErro(ex.getMessage());
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
             }
         }
         return "Registro alterado com sucesso";
@@ -109,21 +112,18 @@ public class ContatoDAO implements IContatoDAO {
             statement.setLong(1, id);
             statement.executeUpdate();
             return "Registro de código: " + id + " excluído com sucesso";
-        } catch (SQLException ex) {
-            this.msgErro(ex.getMessage());
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
             return "Erro ao excluir registro de código: " + id;
         } finally {
             try {
                 if (statement != null) {
                     statement.close();
                 }
-            } catch (SQLException ex) {
-                this.msgErro(ex.getMessage());
+            } catch (SQLException e) {
+                logger.error(e.getMessage());
             }
         }
     }
 
-    private void msgErro(String msg) {
-//        LoggerApp.erro(msg, this.getClass());
-    }
 }

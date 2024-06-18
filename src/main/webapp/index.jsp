@@ -12,7 +12,7 @@
         <title>Controle de Estoque</title>
     </head>
     <body class="semMargin_semPadding">
-         <jsp:include page="/shareds_jsp/header.jsp" />
+        <jsp:include page="/shareds_jsp/header.jsp" />
         <div class="container justify-content-center">
 
             <c:set var="retorno" value="${ret}" scope="request" />

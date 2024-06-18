@@ -16,7 +16,7 @@ public class LogoutServlet extends HttpServlet {
     static final Logger logger = LogManager.getLogger(LogoutServlet.class);
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) {
         try {
             logger.info("Fechando sistema.......");
             for (int i = 0; i < 2; i++) {
@@ -25,8 +25,8 @@ public class LogoutServlet extends HttpServlet {
                 logger.info(String.format("Click: %s", i));
             }
             logger.info("Sistema fechado !");
-        } catch(Exception ex) {
-            logger.error(ex.getMessage());
+        } catch(Exception e) {
+            logger.error(String.format("Exception: [ %s ] Mensagem: %s", e.getClass().getSimpleName(), e.getMessage()));
         }
 
     }

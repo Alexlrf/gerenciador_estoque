@@ -18,6 +18,7 @@
         <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
         <input type="hidden" id="emailContato"  name="emailContato" value="">
         <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
+
         <div class="container-fluid d-flex justify-content-between mb-4">
             <input type="submit" value="Listar Contatos de Usuários">
             <button type="submit"
