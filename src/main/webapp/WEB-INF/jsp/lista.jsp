@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-
 <jsp:include page="/shareds_jsp/header.jsp" />
 
 <div class="container_pagina">
@@ -19,8 +18,20 @@
         <input type="hidden" id="emailContato"  name="emailContato" value="">
         <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
 
+        
         <div class="container-fluid d-flex justify-content-between mb-4">
-            <input type="submit" value="Listar Contatos de Usuários">
+            <button class="btn btn-secondary col-2" type="submit" onclick="buscarTodasPessoas('controller')">Buscar Todos</button>
+            <div class="col-2 d-flex">
+                <input name="fragmentoTexto" id="fragmentoTexto" type="text" class="form-control col-2 me-1" onkeyup="validarQuantidadeCaracteres()">
+                <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('controller')">Buscar</button>
+            </div>
+            <div class="col-2">
+                <select class="form-select" name="tipo" onchange="buscarPessoasPorCategoria('controller', this.value)">
+                    <option value="">Busca por tipo</option>
+                    <option value="Cliente">Cliente</option>
+                    <option value="Fornecedor">Fornecedor</option>
+                </select>
+            </div>
             <button type="submit"
                     class="btn btn-outline-secondary"
                     onclick="atribuirRedirect('cadastro', null, null, null)">
@@ -78,5 +89,32 @@
             }
         }
 
+        function buscarTodasPessoas(formParam) {
+            location.href=formParam+"?acao=Listar&tipoBusca=TODOS";
+        }
+
+        function buscarPessoasPorCategoria(formParam, valorParam) {
+            location.href=formParam+"?acao=Listar&tipoBusca=TIPO&valorBusca="+valorParam;
+        }
+        
+        function buscarPessoaPorFragmentoTexto(formParam) {
+            let texto = document.getElementById('fragmentoTexto').value.trim();
+            location.href=formParam+"?acao=Listar&tipoBusca=FRAGMENTO_TEXTO&valorBusca="+texto;
+        }
+        
+        function validarQuantidadeCaracteres() {
+            let texto = document.getElementById('fragmentoTexto').value.trim();
+            if(texto.length > 2) {
+                document.getElementById("btnBuscaFragmeno").disabled = false;
+            }
+        }
+
+        function stopDefAction(evt) {
+            evt.preventDefault();
+        }
+
+        document
+        .getElementById("btnBuscaFragmeno")
+        .addEventListener("click", stopDefAction, false);
 </script>
 
