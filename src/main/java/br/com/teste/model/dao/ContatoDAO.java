@@ -1,7 +1,6 @@
 package br.com.teste.model.dao;
 
 import br.com.teste.infra.GenericException;
-import br.com.teste.infra.LoggerApp;
 import br.com.teste.model.entity.ContatoUsuario;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -20,37 +19,41 @@ public class ContatoDAO implements IContatoDAO {
     }
 
     @Override
-    public String cadastrar(ContatoUsuario usuario) {
+    public String cadastrar(ContatoUsuario contato) {
+        String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo) VALUES (?, ?, ?)";
+        ResultSet rs = null;
         long generatedId;
-        try {
-            String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo) VALUES (?, ?, ?)";
-            PreparedStatement preparedStatement = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, usuario.getNome());
-            preparedStatement.setString(2, usuario.getEmail());
-            preparedStatement.setString(3, usuario.getTipo());
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, contato.getNome());
+            preparedStatement.setString(2, contato.getEmail());
+            preparedStatement.setString(3, contato.getTipo());
             preparedStatement.executeUpdate();
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            resultSet.next();
-            generatedId = resultSet.getLong("id");
-            preparedStatement.close();
-            resultSet.close();
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-            throw new GenericException(e.getMessage());
+            rs = preparedStatement.getGeneratedKeys();
+            rs.next();
+            generatedId = rs.getLong("id");
+            return "Inserção criada com registro: " + generatedId;
+        } catch (Exception e) {
+            this.loggerErro(e, "cadastrar");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                this.loggerErro(e, "cadastrar");
+            }
         }
-        return "Inserção criada com registro: " + generatedId;
+        return String.format("Erro ao salvar registro de nome: %s", contato.getNome());
     }
 
     @Override
     public List<ContatoUsuario> buscarContatosUsuarios() {
+        String sql = "Select * from public.usuario_teste_jsp order by id";
         List<ContatoUsuario> contatos = new ArrayList<>();
-        PreparedStatement statement = null;
         ResultSet rs = null;
-        try {
-            String sql = "Select * from public.usuario_teste_jsp order by id";
-            statement = this.connection.prepareStatement(sql);
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             rs = statement.executeQuery();
-
             while (rs.next()) {
                 ContatoUsuario contatoUsuario = new ContatoUsuario();
                 contatoUsuario.setId(rs.getLong("id"));
@@ -59,18 +62,15 @@ public class ContatoDAO implements IContatoDAO {
                 contatoUsuario.setTipo(rs.getString("tipo"));
                 contatos.add(contatoUsuario);
             }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
+        } catch (Exception e) {
+            this.loggerErro(e, "buscarContatosUsuarios");
         } finally {
             try {
-                if (statement != null) {
-                    statement.close();
-                }
                 if (rs != null) {
                     rs.close();
                 }
             } catch (SQLException e) {
-                logger.error(e.getMessage());
+                this.loggerErro(e, "buscarContatosUsuarios");
             }
         }
         return contatos;
@@ -79,51 +79,94 @@ public class ContatoDAO implements IContatoDAO {
     @Override
     public String alterar(String id, ContatoUsuario usuario) {
         String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? where id = ?";
-        PreparedStatement statement = null;
-        try {
-            statement = this.connection.prepareStatement(sql);
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setString(1, usuario.getNome());
             statement.setString(2, usuario.getEmail());
             statement.setString(3, usuario.getTipo());
             statement.setLong(4, Long.parseLong(id));
             statement.executeUpdate();
-
-        } catch(Exception e) {
-            logger.error(e.getMessage());
-            return String.format("Erro ao alterar registro de nome: %s", usuario.getNome());
-        } finally {
-            try {
-                if (statement != null) {
-                    statement.close();
-                }
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
-            }
+            return "Registro alterado com sucesso";
+        } catch (Exception e) {
+            this.loggerErro(e, "alterar");
         }
-        return "Registro alterado com sucesso";
+        return String.format("Erro ao alterar registro de nome: %s", usuario.getNome());
     }
 
     @Override
     public String excluirContatoUsuario(Long id) {
-        PreparedStatement statement = null;
-        try {
-            String sql = "delete from public.usuario_teste_jsp where id = ?";
-            statement = this.connection.prepareStatement(sql);
+        String sql = "delete from public.usuario_teste_jsp where id = ?";
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             statement.executeUpdate();
             return "Registro de código: " + id + " excluído com sucesso";
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-            return "Erro ao excluir registro de código: " + id;
+        } catch (Exception e) {
+            this.loggerErro(e, "excluirContatoUsuario");
+        }
+        return "Erro ao excluir registro de código: " + id;
+    }
+
+    @Override
+    public List<ContatoUsuario> buscarContatosPorTipo(String tipoPessoa) {
+        List<ContatoUsuario> contatos = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "select * from public.usuario_teste_jsp where tipo = ? order by id";
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+            statement.setString(1, tipoPessoa);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                ContatoUsuario contato = new ContatoUsuario();
+                contato.setId(rs.getLong("id"));
+                contato.setNome(rs.getString("nome"));
+                contato.setEmail(rs.getString("email"));
+                contato.setTipo(rs.getString("tipo"));
+                contatos.add(contato);
+            }
+        } catch (Exception e) {
+            this.loggerErro(e, "buscarContatosPorTipo");
         } finally {
             try {
-                if (statement != null) {
-                    statement.close();
+                if (rs != null) {
+                    rs.close();
                 }
-            } catch (SQLException e) {
-                logger.error(e.getMessage());
+            } catch (Exception e) {
+                this.loggerErro(e, "buscarContatosPorTipo");
             }
         }
+        return contatos;
+    }
+
+    @Override
+    public List<ContatoUsuario> buscarContatosPorFragmentoTexto(String fragmentoTexto) {
+        List<ContatoUsuario> contatos = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "select * from public.usuario_teste_jsp where nome like ? order by id";
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+            statement.setString(1, '%' + fragmentoTexto + '%');
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                ContatoUsuario contato = new ContatoUsuario();
+                contato.setId(rs.getLong("id"));
+                contato.setNome(rs.getString("nome"));
+                contato.setEmail(rs.getString("email"));
+                contato.setTipo(rs.getString("tipo"));
+                contatos.add(contato);
+            }
+        } catch (Exception e) {
+            this.loggerErro(e, "buscarContatosPorFragmentoTexto");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                this.loggerErro(e, "buscarContatosPorFragmentoTexto");
+            }
+        }
+        return contatos;
+    }
+
+    private void loggerErro(Throwable e, String buscarContatosPorTipo) {
+        logger.error(String.format("Método: %s | Exception: [ %s ] | Mensagem: %s", buscarContatosPorTipo, e.getClass().getSimpleName(), e.getMessage()));
     }
 
 }
