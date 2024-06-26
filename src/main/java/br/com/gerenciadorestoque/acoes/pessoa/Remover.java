@@ -3,7 +3,7 @@ package br.com.gerenciadorestoque.acoes.pessoa;
 import br.com.gerenciadorestoque.acoes.IAcao;
 import br.com.gerenciadorestoque.infra.ConnectionFactory;
 import br.com.gerenciadorestoque.model.dao.PessoaDAO;
-import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.model.entity.Pessoa;
 import br.com.gerenciadorestoque.util.RequestUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -26,7 +26,7 @@ public class Remover implements IAcao {
             PessoaDAO dao = new PessoaDAO(connection);
             String retorno = dao.excluirContatoUsuario(idContatoUsuario);
             RequestUtil.inputRetornoSucesso(req, retorno);
-            List<ContatoUsuario> contatos = dao.buscarContatosUsuarios();
+            List<Pessoa> contatos = dao.buscarContatosUsuarios();
             req.setAttribute("contatos", contatos);
         } catch (SQLException e) {
             logger.error(e.getMessage());

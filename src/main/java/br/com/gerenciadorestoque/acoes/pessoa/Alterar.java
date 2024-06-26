@@ -4,7 +4,7 @@ import br.com.gerenciadorestoque.acoes.IAcao;
 import br.com.gerenciadorestoque.infra.ConnectionFactory;
 import br.com.gerenciadorestoque.infra.NegocioException;
 import br.com.gerenciadorestoque.model.dao.PessoaDAO;
-import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.model.entity.Pessoa;
 import br.com.gerenciadorestoque.util.RequestUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -23,7 +23,7 @@ public class Alterar implements IAcao {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try(Connection connection = ConnectionFactory.getConnection()) {
             String id = req.getParameter("idContato");
-            ContatoUsuario usuario = new ContatoUsuario(
+            Pessoa usuario = new Pessoa(
                 RequestUtil.obterValorRequest(req, "nome"),
                 RequestUtil.obterValorRequest(req, "email"),
                 RequestUtil.obterValorRequest(req, "tipo")

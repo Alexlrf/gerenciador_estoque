@@ -1,20 +1,20 @@
 package br.com.gerenciadorestoque.model.dao;
 
-import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.model.entity.Pessoa;
 
 import java.util.List;
 
 public interface IPessoaDAO {
 
-    String cadastrar(ContatoUsuario usuario);
+    String cadastrar(Pessoa usuario);
 
-    List<ContatoUsuario> buscarContatosUsuarios();
+    List<Pessoa> buscarContatosUsuarios();
 
-    public String alterar(String id, ContatoUsuario usuario);
+    public String alterar(String id, Pessoa usuario);
 
     String excluirContatoUsuario(Long id);
 
-    List<ContatoUsuario> buscarContatosPorTipo(String tipoPessoa);
+    List<Pessoa> buscarContatosPorTipo(String tipoPessoa);
 
-    List<ContatoUsuario> buscarContatosPorFragmentoTexto(String fragmentoTexto);
+    List<Pessoa> buscarContatosPorFragmentoTexto(String fragmentoTexto);
 }

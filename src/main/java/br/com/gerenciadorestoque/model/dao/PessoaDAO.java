@@ -1,6 +1,6 @@
 package br.com.gerenciadorestoque.model.dao;
 
-import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.model.entity.Pessoa;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -20,15 +20,15 @@ public class PessoaDAO implements IPessoaDAO {
     }
 
     @Override
-    public String cadastrar(ContatoUsuario contato) {
+    public String cadastrar(Pessoa pessoa) {
         String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo) VALUES (?, ?, ?)";
         ResultSet rs = null;
         long generatedId;
         try (PreparedStatement preparedStatement = this.connection.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, contato.getNome());
-            preparedStatement.setString(2, contato.getEmail());
-            preparedStatement.setString(3, contato.getTipo());
+            preparedStatement.setString(1, pessoa.getNome());
+            preparedStatement.setString(2, pessoa.getEmail());
+            preparedStatement.setString(3, pessoa.getTipo());
             preparedStatement.executeUpdate();
             rs = preparedStatement.getGeneratedKeys();
             rs.next();
@@ -45,23 +45,23 @@ public class PessoaDAO implements IPessoaDAO {
                 this.loggerErro(e);
             }
         }
-        return String.format("Erro ao salvar registro de nome: %s", contato.getNome());
+        return String.format("Erro ao salvar registro de nome: %s", pessoa.getNome());
     }
 
     @Override
-    public List<ContatoUsuario> buscarContatosUsuarios() {
+    public List<Pessoa> buscarContatosUsuarios() {
         String sql = "Select * from public.usuario_teste_jsp order by id";
-        List<ContatoUsuario> contatos = new ArrayList<>();
+        List<Pessoa> pessoas = new ArrayList<>();
         ResultSet rs = null;
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             rs = statement.executeQuery();
             while (rs.next()) {
-                ContatoUsuario contatoUsuario = new ContatoUsuario();
-                contatoUsuario.setId(rs.getLong("id"));
-                contatoUsuario.setNome(rs.getString("nome"));
-                contatoUsuario.setEmail(rs.getString("email"));
-                contatoUsuario.setTipo(rs.getString("tipo"));
-                contatos.add(contatoUsuario);
+                Pessoa pessoa = new Pessoa();
+                pessoa.setId(rs.getLong("id"));
+                pessoa.setNome(rs.getString("nome"));
+                pessoa.setEmail(rs.getString("email"));
+                pessoa.setTipo(rs.getString("tipo"));
+                pessoas.add(pessoa);
             }
         } catch (Exception e) {
             this.loggerErro(e);
@@ -74,23 +74,23 @@ public class PessoaDAO implements IPessoaDAO {
                 this.loggerErro(e);
             }
         }
-        return contatos;
+        return pessoas;
     }
 
     @Override
-    public String alterar(String id, ContatoUsuario usuario) {
+    public String alterar(String id, Pessoa pessoa) {
         String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? where id = ?";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
-            statement.setString(1, usuario.getNome());
-            statement.setString(2, usuario.getEmail());
-            statement.setString(3, usuario.getTipo());
+            statement.setString(1, pessoa.getNome());
+            statement.setString(2, pessoa.getEmail());
+            statement.setString(3, pessoa.getTipo());
             statement.setLong(4, Long.parseLong(id));
             statement.executeUpdate();
             return "Registro alterado com sucesso";
         } catch (Exception e) {
             this.loggerErro(e);
         }
-        return String.format("Erro ao alterar registro de nome: %s", usuario.getNome());
+        return String.format("Erro ao alterar registro de nome: %s", pessoa.getNome());
     }
 
     @Override
@@ -107,20 +107,20 @@ public class PessoaDAO implements IPessoaDAO {
     }
 
     @Override
-    public List<ContatoUsuario> buscarContatosPorTipo(String tipoPessoa) {
-        List<ContatoUsuario> contatos = new ArrayList<>();
+    public List<Pessoa> buscarContatosPorTipo(String tipoPessoa) {
+        List<Pessoa> pessoas = new ArrayList<>();
         ResultSet rs = null;
         String sql = "select * from public.usuario_teste_jsp where tipo = ? order by id";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setString(1, tipoPessoa);
             rs = statement.executeQuery();
             while (rs.next()) {
-                ContatoUsuario contato = new ContatoUsuario();
-                contato.setId(rs.getLong("id"));
-                contato.setNome(rs.getString("nome"));
-                contato.setEmail(rs.getString("email"));
-                contato.setTipo(rs.getString("tipo"));
-                contatos.add(contato);
+                Pessoa pessoa = new Pessoa();
+                pessoa.setId(rs.getLong("id"));
+                pessoa.setNome(rs.getString("nome"));
+                pessoa.setEmail(rs.getString("email"));
+                pessoa.setTipo(rs.getString("tipo"));
+                pessoas.add(pessoa);
             }
         } catch (Exception e) {
             this.loggerErro(e);
@@ -133,24 +133,24 @@ public class PessoaDAO implements IPessoaDAO {
                 this.loggerErro(e);
             }
         }
-        return contatos;
+        return pessoas;
     }
 
     @Override
-    public List<ContatoUsuario> buscarContatosPorFragmentoTexto(String fragmentoTexto) {
-        List<ContatoUsuario> contatos = new ArrayList<>();
+    public List<Pessoa> buscarContatosPorFragmentoTexto(String fragmentoTexto) {
+        List<Pessoa> pessoas = new ArrayList<>();
         ResultSet rs = null;
         String sql = "select * from public.usuario_teste_jsp where nome like ? order by id";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setString(1, '%' + fragmentoTexto + '%');
             rs = statement.executeQuery();
             while (rs.next()) {
-                ContatoUsuario contato = new ContatoUsuario();
-                contato.setId(rs.getLong("id"));
-                contato.setNome(rs.getString("nome"));
-                contato.setEmail(rs.getString("email"));
-                contato.setTipo(rs.getString("tipo"));
-                contatos.add(contato);
+                Pessoa pessoa = new Pessoa();
+                pessoa.setId(rs.getLong("id"));
+                pessoa.setNome(rs.getString("nome"));
+                pessoa.setEmail(rs.getString("email"));
+                pessoa.setTipo(rs.getString("tipo"));
+                pessoas.add(pessoa);
             }
         } catch (Exception e) {
             this.loggerErro(e);
@@ -163,7 +163,7 @@ public class PessoaDAO implements IPessoaDAO {
                 this.loggerErro(e);
             }
         }
-        return contatos;
+        return pessoas;
     }
 
     private void loggerErro(Throwable e) {

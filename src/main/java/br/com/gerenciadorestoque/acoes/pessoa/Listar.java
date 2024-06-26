@@ -3,7 +3,7 @@ package br.com.gerenciadorestoque.acoes.pessoa;
 import br.com.gerenciadorestoque.acoes.IAcao;
 import br.com.gerenciadorestoque.infra.ConnectionFactory;
 import br.com.gerenciadorestoque.model.dao.PessoaDAO;
-import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.model.entity.Pessoa;
 import br.com.gerenciadorestoque.model.enums.BuscasPessoasEnum;
 import br.com.gerenciadorestoque.util.RequestUtil;
 import org.apache.log4j.LogManager;
@@ -25,7 +25,7 @@ public class Listar implements IAcao {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try (Connection connection = ConnectionFactory.getConnection()) {
             PessoaDAO testeDAO = new PessoaDAO(connection);
-            List<ContatoUsuario> contatos = new ArrayList<>();
+            List<Pessoa> contatos = new ArrayList<>();
 
             String tipoBusca = req.getParameter("tipoBusca") != null ? req.getParameter("tipoBusca") : "TODOS";
             String textoBusca = req.getParameter("valorBusca") != null ? req.getParameter("valorBusca") : "";

@@ -1,14 +1,14 @@
 package br.com.gerenciadorestoque.model.entity;
 
-public class ContatoUsuario {
+public class Pessoa {
 
     private Long id;
     private String nome;
     private String email;
     private String tipo;
 
-    public ContatoUsuario() {}
-    public ContatoUsuario(String nome, String email, String tipo) {
+    public Pessoa() {}
+    public Pessoa(String nome, String email, String tipo) {
         this.nome = nome;
         this.email = email;
         this.tipo = tipo;
