@@ -1,5 +1,6 @@
-package br.com.teste.acoes;
+package br.com.teste.acoes.pessoa;
 
+import br.com.teste.acoes.IAcao;
 import br.com.teste.infra.ConnectionFactory;
 import br.com.teste.model.dao.PessoaDAO;
 import br.com.teste.model.entity.ContatoUsuario;

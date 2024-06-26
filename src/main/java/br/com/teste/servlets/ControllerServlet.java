@@ -20,7 +20,7 @@ public class ControllerServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
-            String pacote = "br.com.teste.acoes.";
+            String pacote = "br.com.teste.acoes.pessoa.";
             String acaoNome = req.getParameter("acao");
             Class<?> classe = Class.forName(pacote + acaoNome);
 
