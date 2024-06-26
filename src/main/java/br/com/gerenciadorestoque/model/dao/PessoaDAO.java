@@ -1,6 +1,6 @@
-package br.com.teste.model.dao;
+package br.com.gerenciadorestoque.model.dao;
 
-import br.com.teste.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

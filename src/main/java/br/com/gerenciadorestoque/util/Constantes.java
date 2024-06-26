@@ -1,4 +1,4 @@
-package br.com.teste.util;
+package br.com.gerenciadorestoque.util;
 
 public class Constantes {
 

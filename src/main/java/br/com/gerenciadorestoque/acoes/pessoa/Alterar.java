@@ -1,11 +1,11 @@
-package br.com.teste.acoes.pessoa;
+package br.com.gerenciadorestoque.acoes.pessoa;
 
-import br.com.teste.acoes.IAcao;
-import br.com.teste.infra.ConnectionFactory;
-import br.com.teste.infra.NegocioException;
-import br.com.teste.model.dao.PessoaDAO;
-import br.com.teste.model.entity.ContatoUsuario;
-import br.com.teste.util.RequestUtil;
+import br.com.gerenciadorestoque.acoes.IAcao;
+import br.com.gerenciadorestoque.infra.ConnectionFactory;
+import br.com.gerenciadorestoque.infra.NegocioException;
+import br.com.gerenciadorestoque.model.dao.PessoaDAO;
+import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.util.RequestUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static br.com.teste.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
-import static br.com.teste.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
 
 public class Alterar implements IAcao {
     private final Logger logger = LogManager.getLogger(Alterar.class);

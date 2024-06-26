@@ -1,7 +1,7 @@
-package br.com.teste.model.enums;
+package br.com.gerenciadorestoque.model.enums;
 
-import br.com.teste.model.dao.PessoaDAO;
-import br.com.teste.model.entity.ContatoUsuario;
+import br.com.gerenciadorestoque.model.dao.PessoaDAO;
+import br.com.gerenciadorestoque.model.entity.ContatoUsuario;
 
 import java.util.List;
 

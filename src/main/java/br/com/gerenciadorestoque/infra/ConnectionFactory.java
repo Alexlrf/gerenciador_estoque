@@ -1,4 +1,4 @@
-package br.com.teste.infra;
+package br.com.gerenciadorestoque.infra;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.log4j.LogManager;

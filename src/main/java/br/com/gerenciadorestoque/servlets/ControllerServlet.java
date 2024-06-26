@@ -1,6 +1,6 @@
-package br.com.teste.servlets;
+package br.com.gerenciadorestoque.servlets;
 
-import br.com.teste.acoes.IAcao;
+import br.com.gerenciadorestoque.acoes.IAcao;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -20,7 +20,7 @@ public class ControllerServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
-            String pacote = "br.com.teste.acoes.pessoa.";
+            String pacote = "br.com.gerenciadorestoque.acoes.pessoa.";
             String acaoNome = req.getParameter("acao");
             Class<?> classe = Class.forName(pacote + acaoNome);
 

@@ -1,4 +1,4 @@
-package br.com.teste.infra;
+package br.com.gerenciadorestoque.infra;
 
 public class GenericException extends RuntimeException {
 

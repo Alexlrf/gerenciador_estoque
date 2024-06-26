@@ -1,4 +1,4 @@
-package br.com.teste.servlets;
+package br.com.gerenciadorestoque.servlets;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

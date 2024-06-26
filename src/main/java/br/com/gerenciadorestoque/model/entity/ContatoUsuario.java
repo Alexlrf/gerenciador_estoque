@@ -1,4 +1,4 @@
-package br.com.teste.model.entity;
+package br.com.gerenciadorestoque.model.entity;
 
 public class ContatoUsuario {
 
