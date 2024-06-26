@@ -49,35 +49,6 @@ public class PessoaDAO implements IPessoaDAO {
     }
 
     @Override
-    public List<Pessoa> buscarContatosUsuarios() {
-        String sql = "Select * from public.usuario_teste_jsp order by id";
-        List<Pessoa> pessoas = new ArrayList<>();
-        ResultSet rs = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
-            rs = statement.executeQuery();
-            while (rs.next()) {
-                Pessoa pessoa = new Pessoa();
-                pessoa.setId(rs.getLong("id"));
-                pessoa.setNome(rs.getString("nome"));
-                pessoa.setEmail(rs.getString("email"));
-                pessoa.setTipo(rs.getString("tipo"));
-                pessoas.add(pessoa);
-            }
-        } catch (Exception e) {
-            this.loggerErro(e);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                this.loggerErro(e);
-            }
-        }
-        return pessoas;
-    }
-
-    @Override
     public String alterar(String id, Pessoa pessoa) {
         String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? where id = ?";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
@@ -107,42 +78,31 @@ public class PessoaDAO implements IPessoaDAO {
     }
 
     @Override
+    public List<Pessoa> buscarContatosUsuarios() {
+        String sql = "Select * from public.usuario_teste_jsp order by id";
+        return this.buscarPessoas(sql, "");
+    }
+
+    @Override
     public List<Pessoa> buscarContatosPorTipo(String tipoPessoa) {
-        List<Pessoa> pessoas = new ArrayList<>();
-        ResultSet rs = null;
         String sql = "select * from public.usuario_teste_jsp where tipo = ? order by id";
-        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
-            statement.setString(1, tipoPessoa);
-            rs = statement.executeQuery();
-            while (rs.next()) {
-                Pessoa pessoa = new Pessoa();
-                pessoa.setId(rs.getLong("id"));
-                pessoa.setNome(rs.getString("nome"));
-                pessoa.setEmail(rs.getString("email"));
-                pessoa.setTipo(rs.getString("tipo"));
-                pessoas.add(pessoa);
-            }
-        } catch (Exception e) {
-            this.loggerErro(e);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception e) {
-                this.loggerErro(e);
-            }
-        }
-        return pessoas;
+        return this.buscarPessoas(sql, tipoPessoa);
     }
 
     @Override
     public List<Pessoa> buscarContatosPorFragmentoTexto(String fragmentoTexto) {
+        String sql = "select * from public.usuario_teste_jsp where nome like ? order by id";
+        String fragmentoTratado = '%' + fragmentoTexto + '%';
+        return this.buscarPessoas(sql, fragmentoTratado);
+    }
+
+    private List<Pessoa> buscarPessoas(String sql, String param) {
         List<Pessoa> pessoas = new ArrayList<>();
         ResultSet rs = null;
-        String sql = "select * from public.usuario_teste_jsp where nome like ? order by id";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
-            statement.setString(1, '%' + fragmentoTexto + '%');
+            if (!param.isEmpty()) {
+                statement.setString(1, param);
+            }
             rs = statement.executeQuery();
             while (rs.next()) {
                 Pessoa pessoa = new Pessoa();
@@ -159,7 +119,7 @@ public class PessoaDAO implements IPessoaDAO {
                 if (rs != null) {
                     rs.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 this.loggerErro(e);
             }
         }
