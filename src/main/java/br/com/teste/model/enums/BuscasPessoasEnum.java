@@ -28,7 +28,6 @@ public enum BuscasPessoasEnum {
         }
     };
 
-
     public abstract List<ContatoUsuario> buscarPessoas(ContatoDAO testeDAO, String paramBusca);
 
     BuscasPessoasEnum(){}
