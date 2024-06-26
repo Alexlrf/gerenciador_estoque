@@ -19,7 +19,7 @@ public class RedirectServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
         try {
             String acaoNome = req.getParameter("redirect");
-            RequestDispatcher dispatcher =  req.getRequestDispatcher("/WEB-INF/jsp/"+acaoNome+".jsp");
+            RequestDispatcher dispatcher =  req.getRequestDispatcher("/WEB-INF/pessoa/"+acaoNome+".jsp");
             dispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
             logger.error(String.format("Exception: [ %s ] Mensagem: %s", e.getClass().getSimpleName(), e.getMessage()));

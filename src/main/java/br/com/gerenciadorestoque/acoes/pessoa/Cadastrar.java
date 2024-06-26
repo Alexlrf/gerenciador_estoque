@@ -39,6 +39,6 @@ public class Cadastrar implements IAcao {
             logger.error(e.getMessage());
             RequestUtil.inputRetornoErro(req, MENSAGEM_ERRO_DESCONHECIDO);
         }
-        return "/WEB-INF/jsp/cadastro.jsp";
+        return "/WEB-INF/pessoa/cadastro.jsp";
     }
 }

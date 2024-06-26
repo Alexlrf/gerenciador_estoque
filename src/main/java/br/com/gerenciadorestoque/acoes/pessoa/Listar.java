@@ -39,6 +39,6 @@ public class Listar implements IAcao {
             logger.error(e.getMessage());
             RequestUtil.inputRetornoErro(req, MENSAGEM_ERRO_DESCONHECIDO);
         }
-        return "/WEB-INF/jsp/lista.jsp";
+        return "/WEB-INF/pessoa/lista.jsp";
     }
 }
