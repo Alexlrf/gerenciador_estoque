@@ -1,6 +1,5 @@
 package br.com.teste.model.dao;
 
-import br.com.teste.infra.GenericException;
 import br.com.teste.model.entity.ContatoUsuario;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -9,12 +8,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContatoDAO implements IContatoDAO {
-    private final Logger logger = LogManager.getLogger(ContatoDAO.class);
+public class PessoaDAO implements IPessoaDAO {
+    private final Logger logger = LogManager.getLogger(PessoaDAO.class);
 
     private final Connection connection;
 
-    public ContatoDAO(Connection connection) {
+    public PessoaDAO(Connection connection) {
         this.connection = connection;
     }
 

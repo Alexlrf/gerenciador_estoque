@@ -1,7 +1,7 @@
 package br.com.teste.acoes;
 
 import br.com.teste.infra.ConnectionFactory;
-import br.com.teste.model.dao.ContatoDAO;
+import br.com.teste.model.dao.PessoaDAO;
 import br.com.teste.model.entity.ContatoUsuario;
 import br.com.teste.util.RequestUtil;
 import org.apache.log4j.LogManager;
@@ -22,7 +22,7 @@ public class Remover implements IAcao {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try(Connection connection = ConnectionFactory.getConnection()) {
             Long idContatoUsuario = Long.valueOf(req.getParameter("id"));
-            ContatoDAO dao = new ContatoDAO(connection);
+            PessoaDAO dao = new PessoaDAO(connection);
             String retorno = dao.excluirContatoUsuario(idContatoUsuario);
             RequestUtil.inputRetornoSucesso(req, retorno);
             List<ContatoUsuario> contatos = dao.buscarContatosUsuarios();

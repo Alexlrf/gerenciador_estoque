@@ -1,7 +1,7 @@
 package br.com.teste.acoes;
 
 import br.com.teste.infra.ConnectionFactory;
-import br.com.teste.model.dao.ContatoDAO;
+import br.com.teste.model.dao.PessoaDAO;
 import br.com.teste.model.entity.ContatoUsuario;
 import br.com.teste.model.enums.BuscasPessoasEnum;
 import br.com.teste.util.RequestUtil;
@@ -23,7 +23,7 @@ public class Listar implements IAcao {
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try (Connection connection = ConnectionFactory.getConnection()) {
-            ContatoDAO testeDAO = new ContatoDAO(connection);
+            PessoaDAO testeDAO = new PessoaDAO(connection);
             List<ContatoUsuario> contatos = new ArrayList<>();
 
             String tipoBusca = req.getParameter("tipoBusca") != null ? req.getParameter("tipoBusca") : "TODOS";

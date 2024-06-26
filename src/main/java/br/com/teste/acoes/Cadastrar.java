@@ -1,7 +1,7 @@
 package br.com.teste.acoes;
 
 import br.com.teste.infra.NegocioException;
-import br.com.teste.model.dao.ContatoDAO;
+import br.com.teste.model.dao.PessoaDAO;
 import br.com.teste.infra.ConnectionFactory;
 import br.com.teste.model.entity.ContatoUsuario;
 import br.com.teste.util.RequestUtil;
@@ -25,7 +25,7 @@ public class Cadastrar implements IAcao {
                 RequestUtil.obterValorRequest(req, "email"),
                 RequestUtil.obterValorRequest(req, "tipo")
             );
-            ContatoDAO testeCadastro = new ContatoDAO(connection);
+            PessoaDAO testeCadastro = new PessoaDAO(connection);
             String retorno = testeCadastro.cadastrar(usuario);
             RequestUtil.inputRetornoSucesso(req, retorno);
         } catch (NegocioException e) {

@@ -2,7 +2,7 @@ package br.com.teste.acoes;
 
 import br.com.teste.infra.ConnectionFactory;
 import br.com.teste.infra.NegocioException;
-import br.com.teste.model.dao.ContatoDAO;
+import br.com.teste.model.dao.PessoaDAO;
 import br.com.teste.model.entity.ContatoUsuario;
 import br.com.teste.util.RequestUtil;
 import org.apache.log4j.LogManager;
@@ -28,7 +28,7 @@ public class Alterar implements IAcao {
                 RequestUtil.obterValorRequest(req, "tipo")
             );
 
-            ContatoDAO alteracao = new ContatoDAO(connection);
+            PessoaDAO alteracao = new PessoaDAO(connection);
             String retorno = alteracao.alterar(id, usuario);
             RequestUtil.inputRetornoSucesso(req, retorno);
         } catch (NegocioException e) {

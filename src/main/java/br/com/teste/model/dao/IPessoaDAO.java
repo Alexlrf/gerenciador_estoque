@@ -4,7 +4,7 @@ import br.com.teste.model.entity.ContatoUsuario;
 
 import java.util.List;
 
-public interface IContatoDAO {
+public interface IPessoaDAO {
 
     String cadastrar(ContatoUsuario usuario);
 
