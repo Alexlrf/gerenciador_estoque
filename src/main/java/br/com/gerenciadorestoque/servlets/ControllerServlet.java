@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
+
 @WebServlet("/controller")
 public class ControllerServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger(ControllerServlet.class);
@@ -30,7 +32,7 @@ public class ControllerServlet extends HttpServlet {
             dispatcher.forward(req, resp);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ServletException |
                  IOException e) {
-            logger.error(String.format("Exception: [ %s ] Mensagem: %s", e.getClass().getSimpleName(), e.getMessage()));
+            logger.error(String.format(MENSAGEM_ERRO_LOGGER_EXCEPTION, e.getClass().getSimpleName(), e.getMessage()));
         }
     }
 }

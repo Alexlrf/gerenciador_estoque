@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
+
 @WebServlet("/redirect")
 public class RedirectServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger(RedirectServlet.class);
@@ -22,7 +24,7 @@ public class RedirectServlet extends HttpServlet {
             RequestDispatcher dispatcher =  req.getRequestDispatcher("/WEB-INF/pessoa/"+acaoNome+".jsp");
             dispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
-            logger.error(String.format("Exception: [ %s ] Mensagem: %s", e.getClass().getSimpleName(), e.getMessage()));
+            logger.error(String.format(MENSAGEM_ERRO_LOGGER_EXCEPTION, e.getClass().getSimpleName(), e.getMessage()));
         }
     }
 }

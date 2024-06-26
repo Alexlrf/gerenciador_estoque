@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
+
 public class PessoaDAO implements IPessoaDAO {
     private final Logger logger = LogManager.getLogger(PessoaDAO.class);
 
@@ -33,14 +35,14 @@ public class PessoaDAO implements IPessoaDAO {
             generatedId = rs.getLong("id");
             return "Inserção criada com registro: " + generatedId;
         } catch (Exception e) {
-            this.loggerErro(e, "cadastrar");
+            this.loggerErro(e);
         } finally {
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (Exception e) {
-                this.loggerErro(e, "cadastrar");
+                this.loggerErro(e);
             }
         }
         return String.format("Erro ao salvar registro de nome: %s", contato.getNome());
@@ -62,14 +64,14 @@ public class PessoaDAO implements IPessoaDAO {
                 contatos.add(contatoUsuario);
             }
         } catch (Exception e) {
-            this.loggerErro(e, "buscarContatosUsuarios");
+            this.loggerErro(e);
         } finally {
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (SQLException e) {
-                this.loggerErro(e, "buscarContatosUsuarios");
+                this.loggerErro(e);
             }
         }
         return contatos;
@@ -86,7 +88,7 @@ public class PessoaDAO implements IPessoaDAO {
             statement.executeUpdate();
             return "Registro alterado com sucesso";
         } catch (Exception e) {
-            this.loggerErro(e, "alterar");
+            this.loggerErro(e);
         }
         return String.format("Erro ao alterar registro de nome: %s", usuario.getNome());
     }
@@ -99,7 +101,7 @@ public class PessoaDAO implements IPessoaDAO {
             statement.executeUpdate();
             return "Registro de código: " + id + " excluído com sucesso";
         } catch (Exception e) {
-            this.loggerErro(e, "excluirContatoUsuario");
+            this.loggerErro(e);
         }
         return "Erro ao excluir registro de código: " + id;
     }
@@ -121,14 +123,14 @@ public class PessoaDAO implements IPessoaDAO {
                 contatos.add(contato);
             }
         } catch (Exception e) {
-            this.loggerErro(e, "buscarContatosPorTipo");
+            this.loggerErro(e);
         } finally {
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (Exception e) {
-                this.loggerErro(e, "buscarContatosPorTipo");
+                this.loggerErro(e);
             }
         }
         return contatos;
@@ -151,21 +153,21 @@ public class PessoaDAO implements IPessoaDAO {
                 contatos.add(contato);
             }
         } catch (Exception e) {
-            this.loggerErro(e, "buscarContatosPorFragmentoTexto");
+            this.loggerErro(e);
         } finally {
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (Exception e) {
-                this.loggerErro(e, "buscarContatosPorFragmentoTexto");
+                this.loggerErro(e);
             }
         }
         return contatos;
     }
 
-    private void loggerErro(Throwable e, String buscarContatosPorTipo) {
-        logger.error(String.format("Método: %s | Exception: [ %s ] | Mensagem: %s", buscarContatosPorTipo, e.getClass().getSimpleName(), e.getMessage()));
+    private void loggerErro(Throwable e) {
+        logger.error(String.format(MENSAGEM_ERRO_LOGGER_EXCEPTION, e.getClass().getSimpleName(), e.getMessage()));
     }
 
 }
