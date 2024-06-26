@@ -14,9 +14,9 @@ import java.io.IOException;
 
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
 
-@WebServlet("/controller")
-public class ControllerServlet extends HttpServlet {
-    private final Logger logger = LogManager.getLogger(ControllerServlet.class);
+@WebServlet("/pessoa")
+public class PessoaServlet extends HttpServlet {
+    private final Logger logger = LogManager.getLogger(PessoaServlet.class);
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {

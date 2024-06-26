@@ -6,7 +6,7 @@
 <c:set var="retorno" value="${ret}" scope="request" />
 <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
-<form action="controller" method="post" id="form">
+<form action="pessoa" method="post" id="form">
 
     <input type="hidden" id="acao"      name="acao"      value="Cadastrar">
     <input type="hidden" id="idContato" name="idContato" value="${param.idContato}">
