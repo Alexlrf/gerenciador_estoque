@@ -20,11 +20,8 @@
 
 <style type="text/css">
     #msg {
-        color: white;
         height: 40px;
         padding: 10px;
-        margin: 5px;
-        display: flex;
         border-radius: 7px;
     }
 

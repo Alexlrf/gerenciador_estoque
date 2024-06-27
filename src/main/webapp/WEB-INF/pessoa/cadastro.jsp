@@ -12,21 +12,27 @@
     <input type="hidden" id="idContato" name="idContato" value="${param.idContato}">
     <input type="hidden" id="redirect"  name="redirect"  value="">
 
-    <div width="90%" style="background: light-gray" class="container_pagina">
-        <input type="text" name="nome" placeholder="Digite o nome" value="${param.nomeContato}" />
-        <input type="email" name="email" placeholder="Digite o e-mail" value="${param.emailContato}" />
+    <div class="container d-flex flex-column">
 
-        <select name="tipo" value="${param.tipoContato}">
-            <option value="${param.tipoContato.length() > 0 ? param.tipoContato : ''}">
-                ${param.tipoContato.length() > 0 ? param.tipoContato : 'Tipo'}
-            </option>
-            <option value="Cliente">Cliente</option>
-            <option value="Fornecedor">Fornecedor</option>
-        </select>
+        <h2 class="mb-5" >${param.tipoContato.length() > 0 ? 'Edição' : 'Cadastro'} de Pessoa</h2>
+        <input class="form-control col-10 mb-4" type="text" name="nome" placeholder="Digite o nome" value="${param.nomeContato}" />
 
-        <input type="submit" value="Incluir" onclick="atribuirAcao()">
+        <div class="d-flex justify-content-between mb-5">
+            <input class="form-control me-4" type="email" name="email" placeholder="Digite o e-mail" value="${param.emailContato}" />
+
+            <select class="form-select" name="tipo" value="${param.tipoContato}">
+                <option value="${param.tipoContato.length() > 0 ? param.tipoContato : ''}">
+                    ${param.tipoContato.length() > 0 ? param.tipoContato : 'Tipo'}
+                </option>
+                <option value="Cliente">Cliente</option>
+                <option value="Fornecedor">Fornecedor</option>
+            </select>
+        </div>
+        <div class="container d-flex justify-content-end">
+            <input class="col-2 me-2" type="submit" value="Lista de Usuários" onclick="redirection('lista')"/>
+            <input class="col-2" type="submit" value="${param.tipoContato.length() > 0 ? 'Alterar' : 'Salvar'}" onclick="atribuirAcao()">
+        </div>
     </div>
-    <input type="submit" value="Lista de Usuários" onclick="redirection('lista')"/>
 </form>
 
 <script>
