@@ -1,6 +1,6 @@
-package br.com.teste.servlets;
+package br.com.gerenciadorestoque.servlets;
 
-import br.com.teste.acoes.IAcao;
+import br.com.gerenciadorestoque.acoes.IAcao;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -12,15 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/controller")
-public class ControllerServlet extends HttpServlet {
-    private final Logger logger = LogManager.getLogger(ControllerServlet.class);
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
+
+@WebServlet("/pessoa")
+public class PessoaServlet extends HttpServlet {
+    private final Logger logger = LogManager.getLogger(PessoaServlet.class);
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
-            String pacote = "br.com.teste.acoes.";
+            String pacote = "br.com.gerenciadorestoque.acoes.pessoa.";
             String acaoNome = req.getParameter("acao");
             Class<?> classe = Class.forName(pacote + acaoNome);
 
@@ -30,7 +32,7 @@ public class ControllerServlet extends HttpServlet {
             dispatcher.forward(req, resp);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ServletException |
                  IOException e) {
-            logger.error(String.format("Exception: [ %s ] Mensagem: %s", e.getClass().getSimpleName(), e.getMessage()));
+            logger.error(String.format(MENSAGEM_ERRO_LOGGER_EXCEPTION, e.getClass().getSimpleName(), e.getMessage()));
         }
     }
 }

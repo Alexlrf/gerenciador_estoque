@@ -4,29 +4,30 @@
 
 <jsp:include page="/shareds_jsp/header.jsp" />
 
-<div class="container_pagina">
 
-    <c:set var="retorno" value="${ret}" scope="request" />
-    <c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
-    <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
+<c:set var="retorno" value="${ret}" scope="request" />
+<c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
+<jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
-    <form action="controller" id="form">
-        <input type="hidden" id="acao"          name="acao"         value="Listar">
-        <input type="hidden" id="redirect"      name="redirect"     value="">
-        <input type="hidden" id="idContato"     name="idContato"    value="">
-        <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
-        <input type="hidden" id="emailContato"  name="emailContato" value="">
-        <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
-
+<form action="pessoa" id="form">
+    <input type="hidden" id="acao"          name="acao"         value="Listar">
+    <input type="hidden" id="redirect"      name="redirect"     value="">
+    <input type="hidden" id="idContato"     name="idContato"    value="">
+    <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
+    <input type="hidden" id="emailContato"  name="emailContato" value="">
+    <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
+    
+    <div class="container d-flex flex-column">
+        <h2 class="mb-5" >Pesquisa de Pessoa</h2>
         
-        <div class="container-fluid d-flex justify-content-between mb-4">
-            <button class="btn btn-secondary col-2" type="submit" onclick="buscarTodasPessoas('controller')">Buscar Todos</button>
+        <div class="container d-flex justify-content-between mb-4">
+            <button class="btn btn-secondary col-2" type="submit" onclick="buscarTodasPessoas('pessoa')">Buscar Todos</button>
             <div class="col-2 d-flex">
                 <input name="fragmentoTexto" id="fragmentoTexto" type="text" class="form-control col-2 me-1" onkeyup="validarQuantidadeCaracteres()">
-                <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('controller')">Buscar</button>
+                <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('pessoa')">Buscar</button>
             </div>
             <div class="col-2">
-                <select class="form-select" name="tipo" onchange="buscarPessoasPorCategoria('controller', this.value)">
+                <select class="form-select" name="tipo" onchange="buscarPessoasPorCategoria('pessoa', this.value)">
                     <option value="">Busca por tipo</option>
                     <option value="Cliente">Cliente</option>
                     <option value="Fornecedor">Fornecedor</option>
@@ -55,7 +56,7 @@
                         <td>${contato.tipo}</td>
                         <td>
                             <div style="display:flex; justify-content: space-evenly;">
-                                <a href="controller?id=${contato.id}&acao=Remover">
+                                <a href="pessoa?id=${contato.id}&acao=Remover">
                                     <img src="imagens/excluir.png" alt="Imagem de icone de lixeira para excluir registro" title="Excluir registro">
                                 </a>
                                 <button type="submit" style="border: none; background-color: transparent;" onclick="atribuirRedirect('cadastro', '${contato.id}', '${contato.nome}', '${contato.email}', '${contato.tipo}')">

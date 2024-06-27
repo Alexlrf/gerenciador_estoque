@@ -1,9 +1,10 @@
-package br.com.teste.util;
+package br.com.gerenciadorestoque.util;
 
 public class Constantes {
 
     private Constantes(){}
 
+    public static final String MENSAGEM_ERRO_LOGGER_EXCEPTION = "Exception: [ %s ] Mensagem: %s";
     public static final String MENSAGEM_ERRO_TRANSACAO_DB = "Erro ao efetuar operação na base de dados";
     public static final String MENSAGEM_ERRO_CAMPO_VAZIO = "Campo: %s deve ser preenchido";
     public static final String MENSAGEM_ERRO_DESCONHECIDO = "HOUVE UM ERRO INESPERADO";

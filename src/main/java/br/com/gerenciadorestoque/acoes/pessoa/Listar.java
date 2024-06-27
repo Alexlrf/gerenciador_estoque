@@ -1,10 +1,11 @@
-package br.com.teste.acoes;
+package br.com.gerenciadorestoque.acoes.pessoa;
 
-import br.com.teste.infra.ConnectionFactory;
-import br.com.teste.model.dao.ContatoDAO;
-import br.com.teste.model.entity.ContatoUsuario;
-import br.com.teste.model.enums.BuscasPessoasEnum;
-import br.com.teste.util.RequestUtil;
+import br.com.gerenciadorestoque.acoes.IAcao;
+import br.com.gerenciadorestoque.infra.ConnectionFactory;
+import br.com.gerenciadorestoque.model.dao.PessoaDAO;
+import br.com.gerenciadorestoque.model.entity.Pessoa;
+import br.com.gerenciadorestoque.model.enums.BuscasPessoasEnum;
+import br.com.gerenciadorestoque.util.RequestUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -15,16 +16,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.teste.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
-import static br.com.teste.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
 
 public class Listar implements IAcao {
     private final Logger logger = LogManager.getLogger(Listar.class);
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try (Connection connection = ConnectionFactory.getConnection()) {
-            ContatoDAO testeDAO = new ContatoDAO(connection);
-            List<ContatoUsuario> contatos = new ArrayList<>();
+            PessoaDAO testeDAO = new PessoaDAO(connection);
+            List<Pessoa> contatos = new ArrayList<>();
 
             String tipoBusca = req.getParameter("tipoBusca") != null ? req.getParameter("tipoBusca") : "TODOS";
             String textoBusca = req.getParameter("valorBusca") != null ? req.getParameter("valorBusca") : "";
@@ -38,6 +39,6 @@ public class Listar implements IAcao {
             logger.error(e.getMessage());
             RequestUtil.inputRetornoErro(req, MENSAGEM_ERRO_DESCONHECIDO);
         }
-        return "/WEB-INF/jsp/lista.jsp";
+        return "/WEB-INF/pessoa/lista.jsp";
     }
 }

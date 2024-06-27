@@ -1,10 +1,11 @@
-package br.com.teste.acoes;
+package br.com.gerenciadorestoque.acoes.pessoa;
 
-import br.com.teste.infra.NegocioException;
-import br.com.teste.model.dao.ContatoDAO;
-import br.com.teste.infra.ConnectionFactory;
-import br.com.teste.model.entity.ContatoUsuario;
-import br.com.teste.util.RequestUtil;
+import br.com.gerenciadorestoque.acoes.IAcao;
+import br.com.gerenciadorestoque.infra.ConnectionFactory;
+import br.com.gerenciadorestoque.infra.NegocioException;
+import br.com.gerenciadorestoque.model.dao.PessoaDAO;
+import br.com.gerenciadorestoque.model.entity.Pessoa;
+import br.com.gerenciadorestoque.util.RequestUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -13,20 +14,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static br.com.teste.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
-import static br.com.teste.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
+import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
 
-public class Cadastrar implements IAcao {
-    private final Logger logger = LogManager.getLogger(Cadastrar.class);
+public class Alterar implements IAcao {
+    private final Logger logger = LogManager.getLogger(Alterar.class);
+
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try(Connection connection = ConnectionFactory.getConnection()) {
-            ContatoUsuario usuario = new ContatoUsuario(
+            String id = req.getParameter("idContato");
+            Pessoa usuario = new Pessoa(
                 RequestUtil.obterValorRequest(req, "nome"),
                 RequestUtil.obterValorRequest(req, "email"),
                 RequestUtil.obterValorRequest(req, "tipo")
             );
-            ContatoDAO testeCadastro = new ContatoDAO(connection);
-            String retorno = testeCadastro.cadastrar(usuario);
+
+            PessoaDAO alteracao = new PessoaDAO(connection);
+            String retorno = alteracao.alterar(id, usuario);
             RequestUtil.inputRetornoSucesso(req, retorno);
         } catch (NegocioException e) {
             logger.error(e.getMessage());
@@ -38,6 +42,6 @@ public class Cadastrar implements IAcao {
             logger.error(e.getMessage());
             RequestUtil.inputRetornoErro(req, MENSAGEM_ERRO_DESCONHECIDO);
         }
-        return "/WEB-INF/jsp/cadastro.jsp";
+        return "/index.jsp";
     }
 }

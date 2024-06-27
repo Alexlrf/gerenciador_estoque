@@ -1,11 +1,11 @@
-package br.com.teste.util;
+package br.com.gerenciadorestoque.util;
 
-import br.com.teste.infra.NegocioException;
+import br.com.gerenciadorestoque.infra.NegocioException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static br.com.teste.util.Constantes.*;
-import static br.com.teste.util.Constantes.COR_MENSAGEM_SUCESSO;
+import static br.com.gerenciadorestoque.util.Constantes.*;
+import static br.com.gerenciadorestoque.util.Constantes.COR_MENSAGEM_SUCESSO;
 
 public class RequestUtil {
 

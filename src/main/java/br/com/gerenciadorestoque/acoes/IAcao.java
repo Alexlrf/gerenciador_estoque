@@ -1,4 +1,4 @@
-package br.com.teste.acoes;
+package br.com.gerenciadorestoque.acoes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
