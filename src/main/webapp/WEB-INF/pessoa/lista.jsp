@@ -4,22 +4,23 @@
 
 <jsp:include page="/shareds_jsp/header.jsp" />
 
-<div class="container_pagina">
 
-    <c:set var="retorno" value="${ret}" scope="request" />
-    <c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
-    <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
+<c:set var="retorno" value="${ret}" scope="request" />
+<c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
+<jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
-    <form action="pessoa" id="form">
-        <input type="hidden" id="acao"          name="acao"         value="Listar">
-        <input type="hidden" id="redirect"      name="redirect"     value="">
-        <input type="hidden" id="idContato"     name="idContato"    value="">
-        <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
-        <input type="hidden" id="emailContato"  name="emailContato" value="">
-        <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
-
+<form action="pessoa" id="form">
+    <input type="hidden" id="acao"          name="acao"         value="Listar">
+    <input type="hidden" id="redirect"      name="redirect"     value="">
+    <input type="hidden" id="idContato"     name="idContato"    value="">
+    <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
+    <input type="hidden" id="emailContato"  name="emailContato" value="">
+    <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
+    
+    <div class="container d-flex flex-column">
+        <h2 class="mb-5" >Pesquisa de Pessoa</h2>
         
-        <div class="container-fluid d-flex justify-content-between mb-4">
+        <div class="container d-flex justify-content-between mb-4">
             <button class="btn btn-secondary col-2" type="submit" onclick="buscarTodasPessoas('pessoa')">Buscar Todos</button>
             <div class="col-2 d-flex">
                 <input name="fragmentoTexto" id="fragmentoTexto" type="text" class="form-control col-2 me-1" onkeyup="validarQuantidadeCaracteres()">
