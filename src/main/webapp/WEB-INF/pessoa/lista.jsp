@@ -69,6 +69,10 @@
             </tbody>
         </table>
     </form>
+
+    <form action="relatorio" target="_blank">
+        <input type="submit" value="Gerar Relatório" />
+    </form>
 </div>
 <script>
         function atribuirRedirect(par, idCont, nmCont, emailCont, tipoCont) {
