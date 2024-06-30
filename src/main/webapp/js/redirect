@@ -1,0 +1,5 @@
+
+function redirect(par) {
+    var elemento = document.getElementById("redirect");
+    elemento.value = par;
+}

@@ -21,7 +21,6 @@
         <h2 class="mb-5" >Pesquisa de Pessoa</h2>
         
         <div class="container d-flex justify-content-between mb-4">
-            <button class="btn btn-secondary col-2" type="submit" onclick="buscarTodasPessoas('pessoa')">Buscar Todos</button>
             <div class="col-2 d-flex">
                 <input name="fragmentoTexto" id="fragmentoTexto" type="text" class="form-control col-2 me-1" onkeyup="validarQuantidadeCaracteres()">
                 <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('pessoa')">Buscar</button>
@@ -29,6 +28,7 @@
             <div class="col-2">
                 <select class="form-select" name="tipo" onchange="buscarPessoasPorCategoria('pessoa', this.value)">
                     <option value="">Busca por tipo</option>
+                    <option value="Todos">Todos</option>
                     <option value="Cliente">Cliente</option>
                     <option value="Fornecedor">Fornecedor</option>
                 </select>
@@ -95,6 +95,7 @@
         }
 
         function buscarTodasPessoas(formParam) {
+        alert('Foi')
             location.href=formParam+"?acao=Listar&tipoBusca=TODOS";
         }
 
@@ -121,5 +122,6 @@
         document
         .getElementById("btnBuscaFragmeno")
         .addEventListener("click", stopDefAction, false);
+
 </script>
 
