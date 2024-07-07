@@ -26,7 +26,7 @@
                 <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('pessoa')">Buscar</button>
             </div>
             <div class="col-2">
-                <select class="form-select" name="tipo" onchange="buscarPessoasPorCategoria('pessoa', this.value)">
+                <select id="select_tipo_pessoa" class="form-select" name="tipo" onchange="return buscarPessoasPorCategoria('pessoa', this.value)">
                     <option value="">Busca por tipo</option>
                     <option value="Todos">Todos</option>
                     <option value="Cliente">Cliente</option>
@@ -36,7 +36,9 @@
             <button type="submit"
                     class="btn btn-outline-secondary"
                     onclick="atribuirRedirect('cadastro', null, null, null)">
-                 <i class="fas fa-user-plus"></i>  Incluir novo usuário</button>
+                 <i class="fas fa-user-plus"></i>
+                 Incluir novo usuário
+            </button>
         </div>
 
         <table class="table table-striped">
@@ -95,7 +97,6 @@
         }
 
         function buscarTodasPessoas(formParam) {
-        alert('Foi')
             location.href=formParam+"?acao=Listar&tipoBusca=TODOS";
         }
 

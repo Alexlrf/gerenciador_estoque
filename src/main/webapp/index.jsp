@@ -53,8 +53,8 @@
                 <h6 class="card-title">Listar clientes cadastrados</h6>
                 <input
                   class="btn btn-secondary"
-                  type="submit"
-                  onclick="redirection('lista')"
+                  type="button"
+                  onclick="buscarTodasPessoas('pessoa')"
                   value="Visualizar"
                 />
               </div>
@@ -130,6 +130,10 @@
       function redirection(par) {
         var elemento = document.getElementById("redirect");
         elemento.value = par;
+      }
+
+      function buscarTodasPessoas(formParam) {
+          location.href=formParam+"?acao=Listar&tipoBusca=TODOS";
       }
     </script>
   </body>
