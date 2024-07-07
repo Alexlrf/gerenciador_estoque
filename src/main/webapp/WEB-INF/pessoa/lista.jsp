@@ -21,14 +21,14 @@
         <h2 class="mb-5" >Pesquisa de Pessoa</h2>
         
         <div class="container d-flex justify-content-between mb-4">
-            <button class="btn btn-secondary col-2" type="submit" onclick="buscarTodasPessoas('pessoa')">Buscar Todos</button>
             <div class="col-2 d-flex">
                 <input name="fragmentoTexto" id="fragmentoTexto" type="text" class="form-control col-2 me-1" onkeyup="validarQuantidadeCaracteres()">
                 <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('pessoa')">Buscar</button>
             </div>
             <div class="col-2">
-                <select class="form-select" name="tipo" onchange="buscarPessoasPorCategoria('pessoa', this.value)">
+                <select id="select_tipo_pessoa" class="form-select" name="tipo" onchange="return buscarPessoasPorCategoria('pessoa', this.value)">
                     <option value="">Busca por tipo</option>
+                    <option value="Todos">Todos</option>
                     <option value="Cliente">Cliente</option>
                     <option value="Fornecedor">Fornecedor</option>
                 </select>
@@ -36,7 +36,9 @@
             <button type="submit"
                     class="btn btn-outline-secondary"
                     onclick="atribuirRedirect('cadastro', null, null, null)">
-                 <i class="fas fa-user-plus"></i>  Incluir novo usuário</button>
+                 <i class="fas fa-user-plus"></i>
+                 Incluir novo usuário
+            </button>
         </div>
 
         <table class="table table-striped">
@@ -68,6 +70,10 @@
                 </c:forEach>
             </tbody>
         </table>
+    </form>
+
+    <form action="relatorio" target="_blank">
+        <input type="submit" value="Gerar Relatório" />
     </form>
 </div>
 <script>
@@ -117,5 +123,6 @@
         document
         .getElementById("btnBuscaFragmeno")
         .addEventListener("click", stopDefAction, false);
+
 </script>
 

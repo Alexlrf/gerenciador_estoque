@@ -85,8 +85,15 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public List<Pessoa> buscarContatosPorTipo(String tipoPessoa) {
-        String sql = "select * from public.usuario_teste_jsp where tipo = ? order by id";
-        return this.buscarPessoas(sql, tipoPessoa);
+        StringBuilder sql = new StringBuilder("Select * From public.usuario_teste_jsp where ");
+        if (tipoPessoa.equalsIgnoreCase("Todos")) {
+            sql.append("tipo in ('Fornecedor', 'Cliente')");
+            tipoPessoa = "";
+        } else {
+            sql.append("tipo = ?");
+        }
+        sql.append("order by nome");
+        return this.buscarPessoas(sql.toString(), tipoPessoa);
     }
 
     @Override
