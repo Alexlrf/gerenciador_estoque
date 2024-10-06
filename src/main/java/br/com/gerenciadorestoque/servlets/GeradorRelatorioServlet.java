@@ -26,7 +26,7 @@ public class GeradorRelatorioServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
         try(Connection connection = ConnectionFactory.getConnection()) {
             ServletContext contexto = req.getServletContext();
-            String jrxml = contexto.getRealPath("/report/pessoas_geral.jrxml");
+            String jrxml = contexto.getRealPath("/report/pessoa.jasper");
 
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("NOME", req.getParameter("nome"));

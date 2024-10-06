@@ -45,6 +45,7 @@
             <thead class="col-12">
                 <th class="col-1">Código</th>
                 <th class="col-5">Nome</th>
+                <th class="col-1">Imagem</th>
                 <th class="col-4">E-mail</th>
                 <th class="col-4">Tipo</th>
                 <th class="col-2 text-center">Ações</th>
@@ -54,6 +55,9 @@
                     <tr>
                         <td>${contato.id}</td>
                         <td>${contato.nome}</td>
+                        <td>
+                            <img style="width:90px;" src="imagem?id=${contato.id}" alt="Imagem do ${contato.nome}">
+                        </td>
                         <td>${contato.email}</td>
                         <td>${contato.tipo}</td>
                         <td>

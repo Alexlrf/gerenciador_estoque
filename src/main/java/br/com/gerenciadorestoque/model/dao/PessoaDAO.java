@@ -21,7 +21,7 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public String cadastrar(Pessoa pessoa) {
-        String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo, imagem_pessoa) VALUES (?, ?, ?, ?)";
         ResultSet rs = null;
         long generatedId;
         try (PreparedStatement preparedStatement = this.connection.prepareStatement(sql,
@@ -29,6 +29,7 @@ public class PessoaDAO implements IPessoaDAO {
             preparedStatement.setString(1, pessoa.getNome());
             preparedStatement.setString(2, pessoa.getEmail());
             preparedStatement.setString(3, pessoa.getTipo());
+            preparedStatement.setBytes(4, pessoa.getImagemPessoa());
             preparedStatement.executeUpdate();
             rs = preparedStatement.getGeneratedKeys();
             rs.next();
@@ -79,13 +80,13 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public List<Pessoa> buscarContatosUsuarios() {
-        String sql = "Select * from public.usuario_teste_jsp order by id";
+        String sql = "Select id, nome, email, tipo from public.usuario_teste_jsp order by id";
         return this.buscarPessoas(sql, "");
     }
 
     @Override
     public List<Pessoa> buscarContatosPorTipo(String tipoPessoa) {
-        StringBuilder sql = new StringBuilder("Select * From public.usuario_teste_jsp where ");
+        StringBuilder sql = new StringBuilder("Select id, nome, email, tipo From public.usuario_teste_jsp where ");
         if (tipoPessoa.equalsIgnoreCase("Todos")) {
             sql.append("tipo in ('Fornecedor', 'Cliente')");
             tipoPessoa = "";
@@ -98,7 +99,7 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public List<Pessoa> buscarContatosPorFragmentoTexto(String fragmentoTexto) {
-        String sql = "select * from public.usuario_teste_jsp where nome like ? order by id";
+        String sql = "select id, nome, email, tipo from public.usuario_teste_jsp where nome like ? order by id";
         String fragmentoTratado = '%' + fragmentoTexto + '%';
         return this.buscarPessoas(sql, fragmentoTratado);
     }
@@ -131,6 +132,30 @@ public class PessoaDAO implements IPessoaDAO {
             }
         }
         return pessoas;
+    }
+
+    public byte[] buscarImagemPessoa(Long idPessoa) {
+        String sql = "SELECT imagem_pessoa from public.usuario_teste_jsp WHERE id = ?";
+        ResultSet rs = null;
+        byte[] imgRetorno = new byte[0];
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+            statement.setLong(1, idPessoa);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                imgRetorno = rs.getBytes("imagem_pessoa");
+            }
+        } catch (Exception e) {
+            this.loggerErro(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                this.loggerErro(e);
+            }
+        }
+        return imgRetorno;
     }
 
     private void loggerErro(Throwable e) {

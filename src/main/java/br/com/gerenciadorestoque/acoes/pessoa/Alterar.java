@@ -26,7 +26,8 @@ public class Alterar implements IAcao {
             Pessoa usuario = new Pessoa(
                 RequestUtil.obterValorRequest(req, "nome"),
                 RequestUtil.obterValorRequest(req, "email"),
-                RequestUtil.obterValorRequest(req, "tipo")
+                RequestUtil.obterValorRequest(req, "tipo"),
+                    null
             );
 
             PessoaDAO alteracao = new PessoaDAO(connection);

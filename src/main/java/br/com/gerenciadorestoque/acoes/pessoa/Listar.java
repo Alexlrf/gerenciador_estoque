@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
@@ -24,12 +24,12 @@ public class Listar implements IAcao {
 
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try (Connection connection = ConnectionFactory.getConnection()) {
-            PessoaDAO testeDAO = new PessoaDAO(connection);
-            List<Pessoa> contatos = new ArrayList<>();
+            PessoaDAO pessoaDAO = new PessoaDAO(connection);
+            List<Pessoa> contatos;
 
-            String tipoBusca = req.getParameter("tipoBusca") != null ? req.getParameter("tipoBusca") : "TODOS";
-            String textoBusca = req.getParameter("valorBusca") != null ? req.getParameter("valorBusca") : "";
-            contatos = BuscasPessoasEnum.valueOf(tipoBusca).buscarPessoas(testeDAO, textoBusca);
+            String tipoBusca  = Optional.ofNullable(req.getParameter("tipoBusca")).isPresent() ? req.getParameter("tipoBusca") : "TODOS";
+            String textoBusca = Optional.ofNullable(req.getParameter("valorBusca")).isPresent() ? req.getParameter("valorBusca") : "";
+            contatos = BuscasPessoasEnum.valueOf(tipoBusca).buscarPessoas(pessoaDAO, textoBusca);
 
             req.setAttribute("contatos", contatos);
         } catch (SQLException e) {

@@ -6,7 +6,7 @@
 <c:set var="retorno" value="${ret}" scope="request" />
 <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
-<form action="pessoa" method="post" id="form">
+<form action="pessoa" method="post" id="form" enctype="multipart/form-data">
 
     <input type="hidden" id="acao"      name="acao"      value="Cadastrar">
     <input type="hidden" id="idContato" name="idContato" value="${param.idContato}">
@@ -32,10 +32,13 @@
             <input class="col-2 me-2" type="submit" value="Lista de Usuários" onclick="redirection('lista')"/>
             <input class="col-2" type="submit" value="${param.tipoContato.length() > 0 ? 'Alterar' : 'Salvar'}" onclick="atribuirAcao()">
         </div>
+        <input type="file" id="fileUpload" name="fileUpload"/>
     </div>
 </form>
 
 <script>
+
+
     function atribuirAcao() {
         var idCont = document.getElementById("idContato");
         if(idCont.value > 0) {

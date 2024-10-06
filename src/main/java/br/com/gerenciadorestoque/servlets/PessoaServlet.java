@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
 
@@ -22,8 +23,15 @@ public class PessoaServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
+            String acaoNome;
             String pacote = "br.com.gerenciadorestoque.acoes.pessoa.";
-            String acaoNome = req.getParameter("acao");
+            boolean acaoCadastro = Optional.ofNullable(req.getParameter("acao")).isEmpty();
+            if(acaoCadastro) {
+                acaoNome = "Cadastrar";
+            } else {
+                acaoNome = req.getParameter("acao");
+            }
+
             Class<?> classe = Class.forName(pacote + acaoNome);
 
             IAcao acao = (IAcao) classe.newInstance();
