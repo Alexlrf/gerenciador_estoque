@@ -45,9 +45,11 @@ public class ParametrosRequestMultipart {
                         camposSimples.put(nomeCampo, valorCampo);
                         continue;
                     }
-                    Map.Entry<File, File> retornoExtracaoArquivo = this.obterArquivoRequest(item);
-                    arquivo = this.converterFileToByteArray(retornoExtracaoArquivo.getKey());
-                    this.deletarArquivoTemporario(retornoExtracaoArquivo.getValue());
+                    if (!camposSimples.containsKey("redirect")) {
+                        Map.Entry<File, File> retornoExtracaoArquivo = this.obterArquivoRequest(item);
+                        arquivo = this.converterFileToByteArray(retornoExtracaoArquivo.getKey());
+                        this.deletarArquivoTemporario(retornoExtracaoArquivo.getValue());
+                    }
                 }
             }
         }
