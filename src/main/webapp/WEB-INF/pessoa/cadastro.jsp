@@ -11,6 +11,7 @@
     <input type="hidden" id="acao"      name="acao"      value="Cadastrar">
     <input type="hidden" id="idContato" name="idContato" value="${param.idContato}">
     <input type="hidden" id="redirect"  name="redirect"  value="">
+    <input type="hidden" id="tipoBusca" name="tipoBusca" value="">
 
     <div class="container d-flex flex-column">
 
@@ -29,7 +30,7 @@
             </select>
         </div>
         <div class="container d-flex justify-content-end">
-            <input class="col-2 me-2" type="submit" value="Lista de Usuários" onclick="redirection('lista')"/>
+            <input class="col-2 me-2" type="submit" value="Lista de Usuários" onclick="irParaListaPessoa()"/>
             <input class="col-2" type="submit" value="${param.tipoContato.length() > 0 ? 'Alterar' : 'Salvar'}" onclick="atribuirAcao()">
         </div>
         <input type="file" id="fileUpload" name="fileUpload"/>
@@ -37,7 +38,6 @@
 </form>
 
 <script>
-
 
     function atribuirAcao() {
         var idCont = document.getElementById("idContato");
@@ -47,14 +47,13 @@
         }
     }
 
-    function redirection(par) {
-        var form = document.getElementById("form");
-        form.action = 'redirect';
-        form.method = 'post';
-        var elemento = document.getElementById("redirect");
-        elemento.value = par;
-        var elemento = document.getElementById("acao");
-        elemento.value = '';
+    function irParaListaPessoa() {
+       var elementoAcao = document.getElementById("acao");
+       elementoAcao.value = 'Listar';
+       var elementoAcao = document.getElementById("redirect");
+       elementoAcao.value = 'lista';
+       var elementoBusca = document.getElementById("tipoBusca");
+       elementoBusca.value = 'TODOS';
     }
 
 </script>

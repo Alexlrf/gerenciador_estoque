@@ -9,14 +9,16 @@
 <c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
 <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
-<form action="pessoa" id="form">
+<form action="pessoa" id="form" method="post" enctype="multipart/form-data">
     <input type="hidden" id="acao"          name="acao"         value="Listar">
     <input type="hidden" id="redirect"      name="redirect"     value="">
     <input type="hidden" id="idContato"     name="idContato"    value="">
     <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
     <input type="hidden" id="emailContato"  name="emailContato" value="">
-    <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
-    
+    <input type="hidden" id="tipoContato"   name="tipoContato"  value="">
+    <input type="hidden" id="tipoBusca"     name="tipoBusca"    value="">
+    <input type="hidden" id="valorBusca"    name="valorBusca"   value="">
+
     <div class="container d-flex flex-column">
         <h2 class="mb-5" >Pesquisa de Pessoa</h2>
         
@@ -105,7 +107,11 @@
         }
 
         function buscarPessoasPorCategoria(formParam, valorParam) {
-            location.href=formParam+"?acao=Listar&tipoBusca=TIPO&valorBusca="+valorParam;
+           var tipoBusca = document.getElementById("tipoBusca");
+           tipoBusca.value = 'TIPO'
+           var valorBusca = document.getElementById("valorBusca");
+           valorBusca.value = valorParam
+           document.getElementById('form').submit()
         }
         
         function buscarPessoaPorFragmentoTexto(formParam) {

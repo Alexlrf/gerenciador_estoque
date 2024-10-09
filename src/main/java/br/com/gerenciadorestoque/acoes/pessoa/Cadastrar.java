@@ -6,7 +6,6 @@ import br.com.gerenciadorestoque.infra.GenericException;
 import br.com.gerenciadorestoque.infra.NegocioException;
 import br.com.gerenciadorestoque.model.dao.PessoaDAO;
 import br.com.gerenciadorestoque.model.entity.Pessoa;
-import br.com.gerenciadorestoque.util.ParametrosRequestMultipart;
 import br.com.gerenciadorestoque.util.RequestUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -22,15 +21,12 @@ import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_TRANSACAO_
 public class Cadastrar implements IAcao {
     private final Logger logger = LogManager.getLogger(Cadastrar.class);
 
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp, Map.Entry<Map<String, String>, byte[]> parametros) {
         try(Connection connection = ConnectionFactory.getConnection()) {
-            ParametrosRequestMultipart requestMultipart = new ParametrosRequestMultipart(req);
-            Map.Entry<Map<String, String>, byte[]> parametros = requestMultipart.obterValoresRequestMultipart();
-            Map<String, String> camposSimples = parametros.getKey();
 
-            String nomePessoa  = camposSimples.get("nome").isBlank() ?  "" : camposSimples.get("nome");
-            String emailPessoa = camposSimples.get("email").isBlank() ? "" : camposSimples.get("email");
-            String tipoPessoa  = camposSimples.get("tipo").isBlank() ?  "" : camposSimples.get("tipo");
+            String nomePessoa  = parametros.getKey().get("nome").isBlank() ?  "" : parametros.getKey().get("nome");
+            String emailPessoa = parametros.getKey().get("email").isBlank() ? "" : parametros.getKey().get("email");
+            String tipoPessoa  = parametros.getKey().get("tipo").isBlank() ?  "" : parametros.getKey().get("tipo");
             byte[] fileContent = parametros.getValue();
 
             Pessoa pessoa = new Pessoa(
@@ -53,7 +49,7 @@ public class Cadastrar implements IAcao {
             logger.error(e.getMessage());
             RequestUtil.inputRetornoErro(req, MENSAGEM_ERRO_DESCONHECIDO);
         }
-        return "/WEB-INF/pessoa/cadastro.jsp";
+        return "cadastro";
     }
 
 }

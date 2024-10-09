@@ -1,6 +1,7 @@
 package br.com.gerenciadorestoque.servlets;
 
 import br.com.gerenciadorestoque.acoes.IAcao;
+import br.com.gerenciadorestoque.util.ParametrosRequestMultipart;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
@@ -21,23 +24,30 @@ public class PessoaServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
+        String acaoNome;
+        String pacote = "br.com.gerenciadorestoque.acoes.pessoa.";
+        String retorno = "/WEB-INF/pessoa/";
 
         try {
-            String acaoNome;
-            String pacote = "br.com.gerenciadorestoque.acoes.pessoa.";
-            boolean acaoCadastro = Optional.ofNullable(req.getParameter("acao")).isEmpty();
-            if(acaoCadastro) {
-                acaoNome = "Cadastrar";
-            } else {
-                acaoNome = req.getParameter("acao");
+            ParametrosRequestMultipart requestMultipart = new ParametrosRequestMultipart(req);
+            Map.Entry<Map<String, String>, byte[]> parametros = requestMultipart.obterValoresRequestMultipart();
+            Map<String, String> camposSimples = new HashMap<>();
+
+            if (Optional.ofNullable(parametros).isPresent()) {
+                camposSimples = parametros.getKey();
             }
 
-            Class<?> classe = Class.forName(pacote + acaoNome);
-
-            IAcao acao = (IAcao) classe.newInstance();
-            String retorno = acao.execute(req, resp);
-            RequestDispatcher dispatcher =  req.getRequestDispatcher(retorno);
+            if(Optional.ofNullable(camposSimples.get("redirect")).isPresent() && !camposSimples.get("redirect").isBlank()) {
+                retorno = retorno + camposSimples.get("redirect");
+            } else {
+                acaoNome = camposSimples.get("acao");
+                Class<?> classe = Class.forName(pacote + acaoNome);
+                IAcao acao = (IAcao) classe.newInstance();
+                retorno = retorno + acao.execute(req, resp, parametros);
+            }
+            RequestDispatcher dispatcher =  req.getRequestDispatcher(retorno+ ".jsp");
             dispatcher.forward(req, resp);
+
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ServletException |
                  IOException e) {
             logger.error(String.format(MENSAGEM_ERRO_LOGGER_EXCEPTION, e.getClass().getSimpleName(), e.getMessage()));
