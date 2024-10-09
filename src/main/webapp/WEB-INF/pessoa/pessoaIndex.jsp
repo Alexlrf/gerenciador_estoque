@@ -2,6 +2,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<script src="js/redirect.js"></script>
 
 <body>
     <form action="pessoa" class="container d-flex col-9 flex-column" method="post" id="form" name="form" enctype="multipart/form-data">
@@ -64,8 +65,7 @@
       }
 
       function cadastrarPessoa() {
-          var elementoRedirect = document.getElementById("redirect");
-          elementoRedirect.value = "cadastro";
+        redirect(document.getElementById('form'), 'cadastro');
       }
 
     </script>

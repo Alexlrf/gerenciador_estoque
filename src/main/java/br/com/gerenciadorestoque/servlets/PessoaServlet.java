@@ -37,14 +37,10 @@ public class PessoaServlet extends HttpServlet {
                 camposSimples = parametros.getKey();
             }
 
-            if(Optional.ofNullable(camposSimples.get("redirect")).isPresent() && !camposSimples.get("redirect").isBlank()) {
-                retorno = retorno + camposSimples.get("redirect");
-            } else {
-                acaoNome = camposSimples.get("acao");
-                Class<?> classe = Class.forName(pacote + acaoNome);
-                IAcao acao = (IAcao) classe.newInstance();
-                retorno = retorno + acao.execute(req, resp, parametros);
-            }
+            acaoNome = camposSimples.get("acao");
+            Class<?> classe = Class.forName(pacote + acaoNome);
+            IAcao acao = (IAcao) classe.newInstance();
+            retorno = retorno + acao.execute(req, resp, parametros);
             RequestDispatcher dispatcher =  req.getRequestDispatcher(retorno+ ".jsp");
             dispatcher.forward(req, resp);
 
