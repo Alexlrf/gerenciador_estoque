@@ -25,10 +25,10 @@
         <div class="container d-flex justify-content-between mb-4">
             <div class="col-2 d-flex">
                 <input name="fragmentoTexto" id="fragmentoTexto" type="text" class="form-control col-2 me-1" onkeyup="validarQuantidadeCaracteres()">
-                <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('pessoa')">Buscar</button>
+                <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoas('FRAGMENTO_TEXTO', '')">Buscar</button>
             </div>
             <div class="col-2">
-                <select id="select_tipo_pessoa" class="form-select" name="tipo" onchange="return buscarPessoasPorCategoria('pessoa', this.value)">
+                <select id="select_tipo_pessoa" class="form-select" name="tipo" onchange="return buscarPessoas('TIPO', this.value)">
                     <option value="">Busca por tipo</option>
                     <option value="Todos">Todos</option>
                     <option value="Cliente">Cliente</option>
@@ -102,21 +102,18 @@
             }
         }
 
-        function buscarTodasPessoas(formParam) {
-            location.href=formParam+"?acao=Listar&tipoBusca=TODOS";
-        }
-
-        function buscarPessoasPorCategoria(formParam, valorParam) {
+        function buscarPessoas(tipoBuscaParam, valorBuscaParam) {
            var tipoBusca = document.getElementById("tipoBusca");
-           tipoBusca.value = 'TIPO'
            var valorBusca = document.getElementById("valorBusca");
-           valorBusca.value = valorParam
+           var texto = document.getElementById('fragmentoTexto').value.trim();
+           tipoBusca.value = tipoBuscaParam
+
+           if(tipoBuscaParam == 'TIPO') {
+                valorBusca.value = valorBuscaParam
+           } else {
+                valorBusca.value = texto
+           }
            document.getElementById('form').submit()
-        }
-        
-        function buscarPessoaPorFragmentoTexto(formParam) {
-            let texto = document.getElementById('fragmentoTexto').value.trim();
-            location.href=formParam+"?acao=Listar&tipoBusca=FRAGMENTO_TEXTO&valorBusca="+texto;
         }
         
         function validarQuantidadeCaracteres() {
