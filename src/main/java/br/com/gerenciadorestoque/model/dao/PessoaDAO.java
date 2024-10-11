@@ -51,12 +51,13 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public String alterar(String id, Pessoa pessoa) {
-        String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? where id = ?";
+        String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ?, imagem_pessoa =? where id = ?";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setString(1, pessoa.getNome());
             statement.setString(2, pessoa.getEmail());
             statement.setString(3, pessoa.getTipo());
-            statement.setLong(4, Long.parseLong(id));
+            statement.setBytes(4, pessoa.getImagemPessoa());
+            statement.setLong(5, Long.parseLong(id));
             statement.executeUpdate();
             return "Registro alterado com sucesso";
         } catch (Exception e) {

@@ -50,6 +50,6 @@ public class Alterar implements IAcao {
             logger.error(e.getMessage());
             RequestUtil.inputRetornoErro(req, MENSAGEM_ERRO_DESCONHECIDO);
         }
-        return "/index.jsp";
+        return "lista";
     }
 }
