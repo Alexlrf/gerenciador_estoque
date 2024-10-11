@@ -64,9 +64,9 @@
                         <td>${contato.tipo}</td>
                         <td>
                             <div style="display:flex; justify-content: space-evenly;">
-                                <a href="pessoa?id=${contato.id}&acao=Remover">
-                                    <img src="imagens/excluir.png" alt="Imagem de icone de lixeira para excluir registro" title="Excluir registro">
-                                </a>
+                                <button type="submit" style="border: none; background-color: transparent;" onclick="excluirPessoa('${contato.id}')">
+                                    <img src="imagens/excluir.png" alt="Imagem de icone de lixeira para excluir registro"  title="Excluir registro"/>
+                                </button>
                                 <button type="submit" style="border: none; background-color: transparent;" onclick="atribuirRedirect('cadastro', '${contato.id}', '${contato.nome}', '${contato.email}', '${contato.tipo}')">
                                     <img src="imagens/editar.png" alt="Imagem de icone de Lápis para editar registro"  title="Editar registro"/>
                                 </button>
@@ -83,6 +83,14 @@
     </form>
 </div>
 <script>
+
+        function excluirPessoa(idPessoa) {
+            var idContato = document.getElementById("idContato");
+            idContato.value = idPessoa;
+            var acao = document.getElementById("acao");
+            acao.value = 'Remover'
+        }
+
         function atribuirRedirect(par, idCont, nmCont, emailCont, tipoCont) {
             var form = document.getElementById("form");
             form.action = 'redirect'
