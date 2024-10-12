@@ -1,6 +1,7 @@
 <%@ page  pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<script src="js/redirect.js"></script>
 
 <jsp:include page="/shareds_jsp/header.jsp" />
 
@@ -37,7 +38,7 @@
             </div>
             <button type="submit"
                     class="btn btn-outline-secondary"
-                    onclick="atribuirRedirect('cadastro', null, null, null)">
+                    onclick="cadastrarPessoa()">
                  <i class="fas fa-user-plus"></i>
                  Incluir novo usuário
             </button>
@@ -58,7 +59,7 @@
                         <td>${contato.id}</td>
                         <td>${contato.nome}</td>
                         <td>
-                            <img style="width:90px;" src="imagem?id=${contato.id}" alt="Imagem do ${contato.nome}">
+                            <img style="width:90px;" src="imagem?id=${contato.id}" alt="Imagem de ${contato.nome}">
                         </td>
                         <td>${contato.email}</td>
                         <td>${contato.tipo}</td>
@@ -67,7 +68,7 @@
                                 <button type="submit" style="border: none; background-color: transparent;" onclick="excluirPessoa('${contato.id}')">
                                     <img src="imagens/excluir.png" alt="Imagem de icone de lixeira para excluir registro"  title="Excluir registro"/>
                                 </button>
-                                <button type="submit" style="border: none; background-color: transparent;" onclick="atribuirRedirect('cadastro', '${contato.id}', '${contato.nome}', '${contato.email}', '${contato.tipo}')">
+                                <button type="submit" style="border: none; background-color: transparent;" onclick="editarPessoa('${contato.id}', '${contato.nome}', '${contato.email}', '${contato.tipo}')">
                                     <img src="imagens/editar.png" alt="Imagem de icone de Lápis para editar registro"  title="Editar registro"/>
                                 </button>
                             </div>
@@ -84,6 +85,10 @@
 </div>
 <script>
 
+        function cadastrarPessoa() {
+           redirect(document.getElementById('form'), 'cadastro');
+        }
+
         function excluirPessoa(idPessoa) {
             var idContato = document.getElementById("idContato");
             idContato.value = idPessoa;
@@ -91,35 +96,28 @@
             acao.value = 'Remover'
         }
 
-        function atribuirRedirect(par, idCont, nmCont, emailCont, tipoCont) {
+        function editarPessoa(idCont, nmCont, emailCont, tipoCont) {
             var form = document.getElementById("form");
             form.action = 'redirect'
             form.method = 'post'
-            var elemento = document.getElementById("redirect");
-            elemento.value = par
+            document.getElementById("redirect").value = 'cadastro';
 
             if(idCont) {
-                var contatoEditar = document.getElementById("idContato");
-                contatoEditar.value = idCont
-                var nmContatoEditar = document.getElementById("nomeContato");
-                nmContatoEditar.value = nmCont
-                var emailContatoEditar = document.getElementById("emailContato");
-                emailContatoEditar.value = emailCont
-                var tipoContatoEditar = document.getElementById("tipoContato");
-                tipoContatoEditar.value = tipoCont
+                document.getElementById("idContato").value    = idCont;
+                document.getElementById("nomeContato").value  = nmCont
+                document.getElementById("emailContato").value = emailCont
+                document.getElementById("tipoContato").value  = tipoCont
             }
         }
 
         function buscarPessoas(tipoBuscaParam, valorBuscaParam) {
-           var tipoBusca = document.getElementById("tipoBusca");
+           document.getElementById("tipoBusca").value = tipoBuscaParam
            var valorBusca = document.getElementById("valorBusca");
-           var texto = document.getElementById('fragmentoTexto').value.trim();
-           tipoBusca.value = tipoBuscaParam
 
            if(tipoBuscaParam == 'TIPO') {
                 valorBusca.value = valorBuscaParam
            } else {
-                valorBusca.value = texto
+                valorBusca.value = document.getElementById('fragmentoTexto').value.trim()
            }
            document.getElementById('form').submit()
         }

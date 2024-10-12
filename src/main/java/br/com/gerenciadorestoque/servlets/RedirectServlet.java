@@ -38,7 +38,7 @@ public class RedirectServlet extends HttpServlet {
 
     private void retornarRequest(HttpServletRequest req, HttpServletResponse resp, Map<String, String> camposSimples, String acaoNome) {
         try {
-            if (!camposSimples.isEmpty()) {
+            if (Optional.ofNullable(camposSimples).isPresent() && !camposSimples.isEmpty()) {
                 camposSimples.forEach(req::setAttribute);
             }
             RequestDispatcher dispatcher =  req.getRequestDispatcher("/WEB-INF/pessoa/"+acaoNome+".jsp");

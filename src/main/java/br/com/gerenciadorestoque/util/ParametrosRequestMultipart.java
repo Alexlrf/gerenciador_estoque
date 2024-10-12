@@ -45,7 +45,7 @@ public class ParametrosRequestMultipart {
                         camposSimples.put(nomeCampo, valorCampo);
                         continue;
                     }
-                    if (camposSimples.get("redirect").isBlank()) {
+                    if (camposSimples.get("redirect").isBlank() || this.alteracaoComMudancaArquivo(camposSimples, item)) {
                         Map.Entry<File, File> retornoExtracaoArquivo = this.obterArquivoRequest(item);
                         arquivo = this.converterFileToByteArray(retornoExtracaoArquivo.getKey());
                         this.deletarArquivoTemporario(retornoExtracaoArquivo.getValue());
@@ -54,6 +54,11 @@ public class ParametrosRequestMultipart {
             }
         }
         return new SimpleEntry<>(camposSimples, arquivo);
+    }
+
+    private boolean alteracaoComMudancaArquivo(Map<String, String> camposSimples, FileItem item) {
+        return !camposSimples.get("acao").equalsIgnoreCase("alterar")
+                || !item.getName().isBlank();
     }
 
     private Entry<File, File> obterArquivoRequest(FileItem item) {
@@ -130,7 +135,7 @@ public class ParametrosRequestMultipart {
     }
 
     private void lancarErro(String mensagemErro) {
-        throw new GenericException(mensagemErro);
+        RequestUtil.inputRetornoErro(this.request, mensagemErro);
     }
 
 }

@@ -57,11 +57,8 @@
       </form>
     <script>
         function buscarTodasPessoas() {
-          var elementoAcao = document.getElementById("acao");
-          elementoAcao.value = 'Listar';
-
-          var elementoBusca = document.getElementById("tipoBusca");
-          elementoBusca.value = 'TODOS';
+          document.getElementById("acao").value      = 'Listar';
+          document.getElementById("tipoBusca").value = 'TODOS';
       }
 
       function cadastrarPessoa() {

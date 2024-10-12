@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
 
@@ -51,19 +52,33 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public String alterar(String id, Pessoa pessoa) {
-        String sql = "Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ?, imagem_pessoa =? where id = ?";
-        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+        String sqlString = this.montarSqlStringUpdate(pessoa);
+        try (PreparedStatement statement = this.connection.prepareStatement(sqlString)) {
             statement.setString(1, pessoa.getNome());
             statement.setString(2, pessoa.getEmail());
             statement.setString(3, pessoa.getTipo());
-            statement.setBytes(4, pessoa.getImagemPessoa());
-            statement.setLong(5, Long.parseLong(id));
+            if (Optional.ofNullable(pessoa.getImagemPessoa()).isPresent()) {
+                statement.setBytes(4, pessoa.getImagemPessoa());
+                statement.setLong(5, Long.parseLong(id));
+            } else {
+                statement.setLong(4, Long.parseLong(id));
+            }
             statement.executeUpdate();
             return "Registro alterado com sucesso";
         } catch (Exception e) {
             this.loggerErro(e);
         }
         return String.format("Erro ao alterar registro de nome: %s", pessoa.getNome());
+    }
+
+    private String montarSqlStringUpdate(Pessoa pessoa) {
+        StringBuilder sqlString = new StringBuilder("Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? ");
+        if (Optional.ofNullable(pessoa.getImagemPessoa()).isPresent()) {
+            sqlString.append(", imagem_pessoa = ? where id = ?");
+        } else {
+            sqlString.append(" where id = ?");
+        }
+        return sqlString.toString();
     }
 
     @Override
