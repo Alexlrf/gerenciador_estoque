@@ -9,10 +9,11 @@
 
 <form action="pessoa" method="post" id="form" enctype="multipart/form-data">
 
-    <input type="hidden" id="acao"      name="acao"      value="Cadastrar">
-    <input type="hidden" id="idContato" name="idContato" value="${idContato}">
-    <input type="hidden" id="redirect"  name="redirect"  value="lista">
-    <input type="hidden" id="tipoBusca" name="tipoBusca" value="">
+    <input type="hidden" id="temArquivo" name="temArquivo"  value="SIM">
+    <input type="hidden" id="acao"       name="acao"        value="Cadastrar">
+    <input type="hidden" id="idContato"  name="idContato"   value="${idContato}">
+    <input type="hidden" id="redirect"   name="redirect"    value="lista">
+    <input type="hidden" id="tipoBusca"  name="tipoBusca"   value="">
 
     <div class="container d-flex flex-column">
 
@@ -51,12 +52,16 @@
         if(idCont.value > 0) {
            document.getElementById("acao").value = 'Alterar'
         }
+        if(!document.getElementById("imgContato").files[0]) {
+            document.getElementById("temArquivo").value = 'NAO';
+        }
     }
 
     function irParaListaPessoa() {
        document.getElementById("acao").value      = 'Listar';
        document.getElementById("redirect").value  = 'lista';
        document.getElementById("tipoBusca").value = 'TODOS';
+       document.getElementById("temArquivo").value = 'NAO';
     }
 
 </script>
