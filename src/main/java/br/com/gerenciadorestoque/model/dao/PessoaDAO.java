@@ -22,7 +22,7 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public String cadastrar(Pessoa pessoa) {
-        String sql = "INSERT INTO public.usuario_teste_jsp (nome, email, tipo, imagem_pessoa) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO public.pessoa (nome, email, tipo, imagem_pessoa) VALUES (?, ?, ?, ?)";
         ResultSet rs = null;
         long generatedId;
         try (PreparedStatement preparedStatement = this.connection.prepareStatement(sql,
@@ -72,7 +72,7 @@ public class PessoaDAO implements IPessoaDAO {
     }
 
     private String montarSqlStringUpdate(Pessoa pessoa) {
-        StringBuilder sqlString = new StringBuilder("Update public.usuario_teste_jsp set nome = ?, email = ?, tipo = ? ");
+        StringBuilder sqlString = new StringBuilder("Update public.pessoa set nome = ?, email = ?, tipo = ? ");
         if (Optional.ofNullable(pessoa.getImagemPessoa()).isPresent()) {
             sqlString.append(", imagem_pessoa = ? where id = ?");
         } else {
@@ -83,7 +83,7 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public String excluirContatoUsuario(Long id) {
-        String sql = "delete from public.usuario_teste_jsp where id = ?";
+        String sql = "delete from public.pessoa where id = ?";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             statement.executeUpdate();
@@ -96,13 +96,13 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public List<Pessoa> buscarContatosUsuarios() {
-        String sql = "Select id, nome, email, tipo from public.usuario_teste_jsp order by id";
+        String sql = "Select id, nome, email, tipo from public.pessoa order by id";
         return this.buscarPessoas(sql, "");
     }
 
     @Override
     public List<Pessoa> buscarContatosPorTipo(String tipoPessoa) {
-        StringBuilder sql = new StringBuilder("Select id, nome, email, tipo From public.usuario_teste_jsp where ");
+        StringBuilder sql = new StringBuilder("Select id, nome, email, tipo From public.pessoa where ");
         if (tipoPessoa.equalsIgnoreCase("Todos")) {
             sql.append("tipo in ('Fornecedor', 'Cliente')");
             tipoPessoa = "";
@@ -115,7 +115,7 @@ public class PessoaDAO implements IPessoaDAO {
 
     @Override
     public List<Pessoa> buscarContatosPorFragmentoTexto(String fragmentoTexto) {
-        String sql = "select id, nome, email, tipo from public.usuario_teste_jsp where nome like ? order by id";
+        String sql = "select id, nome, email, tipo from public.pessoa where nome like ? order by id";
         String fragmentoTratado = '%' + fragmentoTexto + '%';
         return this.buscarPessoas(sql, fragmentoTratado);
     }
@@ -151,7 +151,7 @@ public class PessoaDAO implements IPessoaDAO {
     }
 
     public byte[] buscarImagemPessoa(Long idPessoa) {
-        String sql = "SELECT imagem_pessoa from public.usuario_teste_jsp WHERE id = ?";
+        String sql = "SELECT imagem_pessoa from public.pessoa WHERE id = ?";
         ResultSet rs = null;
         byte[] imgRetorno = new byte[0];
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {

@@ -21,7 +21,7 @@ public class AutenticacaoFilter implements Filter {
         String urlBase = httpRequest.getContextPath() + "/controleEstoque/";
 
         if (!requestURI.equals(urlBase)) {
-            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Acesso bloqueado para URLs com complementos.");
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Acesso bloqueado para URLs");
             return;
         }
 
