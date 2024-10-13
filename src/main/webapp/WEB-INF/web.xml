@@ -5,13 +5,22 @@
          version="3.1">
     <display-name>Gerenciador Estoque</display-name>
 
-    <servlet>
-        <servlet-name>redirect</servlet-name>
-        <servlet-class>br.com.gerenciadorestoque.servlets.RedirectServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>redirect</servlet-name>
-        <url-pattern>/redirect</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>redirectServlet</servlet-name>-->
+<!--        <servlet-class>br.com.gerenciadorestoque.servlets.RedirectServlet</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>redirectServlet</servlet-name>-->
+<!--        <url-pattern>/redirect</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <filter>-->
+<!--        <filter-name>autenticacaoFilter</filter-name>-->
+<!--        <filter-class>br.com.gerenciadorestoque.infra.filter.AutenticacaoFilter</filter-class>-->
+<!--    </filter>-->
+<!--    <filter-mapping>-->
+<!--        <filter-name>autenticacaoFilter</filter-name>-->
+<!--        <url-pattern>/controleEstoque/*</url-pattern>-->
+<!--    </filter-mapping>-->
 
 </web-app>

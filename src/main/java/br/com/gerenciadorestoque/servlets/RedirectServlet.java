@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_LOGGER_EXCEPTION;
 
+@WebServlet("/redirect")
 public class RedirectServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger(RedirectServlet.class);
 
