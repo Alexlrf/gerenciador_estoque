@@ -2,6 +2,7 @@ package br.com.gerenciadorestoque.util;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRSaver;
 
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -15,13 +16,15 @@ public class GeradorDeRelatorios {
         this.conexao = conexao;
     }
 
-    public void geraPdf(String jrxml, Map<String, Object> parametros, OutputStream saida) {
+    public void geraPdf(String relatorio, Map<String, Object> parametros, OutputStream saida) {
         try {
             // compila jrxml em memoria
-            JasperReport jasper = JasperCompileManager.compileReport(jrxml);
+//            JasperReport jasper = JasperCompileManager.compileReport(jrxml);
+
+//            JRSaver.saveObject(jasper, "pessoa.jasper");
 
             // preenche relatorio
-            JasperPrint print = JasperFillManager.fillReport(jasper, parametros, this.conexao);
+            JasperPrint print = JasperFillManager.fillReport(relatorio, parametros, this.conexao);
 
             // exporta para pdf
             JRExporter exporter = new JRPdfExporter();

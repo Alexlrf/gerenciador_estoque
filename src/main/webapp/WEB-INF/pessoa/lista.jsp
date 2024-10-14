@@ -1,6 +1,7 @@
 <%@ page  pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<script src="js/redirect.js"></script>
 
 <jsp:include page="/shareds_jsp/header.jsp" />
 
@@ -9,24 +10,26 @@
 <c:set var="cor_msg_retorno" value="${cor_msg_retorno}" scope="request" />
 <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
-<form action="pessoa" id="form">
+<form action="pessoa" id="form" method="post" enctype="multipart/form-data">
     <input type="hidden" id="acao"          name="acao"         value="Listar">
     <input type="hidden" id="redirect"      name="redirect"     value="">
     <input type="hidden" id="idContato"     name="idContato"    value="">
     <input type="hidden" id="nomeContato"   name="nomeContato"  value="">
     <input type="hidden" id="emailContato"  name="emailContato" value="">
-    <input type="hidden" id="tipoContato"  name="tipoContato"   value="">
-    
+    <input type="hidden" id="tipoContato"   name="tipoContato"  value="">
+    <input type="hidden" id="tipoBusca"     name="tipoBusca"    value="">
+    <input type="hidden" id="valorBusca"    name="valorBusca"   value="">
+
     <div class="container d-flex flex-column">
         <h2 class="mb-5" >Pesquisa de Pessoa</h2>
         
         <div class="container d-flex justify-content-between mb-4">
             <div class="col-2 d-flex">
                 <input name="fragmentoTexto" id="fragmentoTexto" type="text" class="form-control col-2 me-1" onkeyup="validarQuantidadeCaracteres()">
-                <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoaPorFragmentoTexto('pessoa')">Buscar</button>
+                <button id="btnBuscaFragmeno" type="submit" class="btn btn-outline-secondary" disabled onclick="buscarPessoas('FRAGMENTO_TEXTO', '')">Buscar</button>
             </div>
             <div class="col-2">
-                <select id="select_tipo_pessoa" class="form-select" name="tipo" onchange="return buscarPessoasPorCategoria('pessoa', this.value)">
+                <select id="select_tipo_pessoa" class="form-select" name="tipo" onchange="return buscarPessoas('TIPO', this.value)">
                     <option value="">Busca por tipo</option>
                     <option value="Todos">Todos</option>
                     <option value="Cliente">Cliente</option>
@@ -35,7 +38,7 @@
             </div>
             <button type="submit"
                     class="btn btn-outline-secondary"
-                    onclick="atribuirRedirect('cadastro', null, null, null)">
+                    onclick="cadastrarPessoa()">
                  <i class="fas fa-user-plus"></i>
                  Incluir novo usuário
             </button>
@@ -45,6 +48,7 @@
             <thead class="col-12">
                 <th class="col-1">Código</th>
                 <th class="col-5">Nome</th>
+                <th class="col-1">Imagem</th>
                 <th class="col-4">E-mail</th>
                 <th class="col-4">Tipo</th>
                 <th class="col-2 text-center">Ações</th>
@@ -54,14 +58,17 @@
                     <tr>
                         <td>${contato.id}</td>
                         <td>${contato.nome}</td>
+                        <td>
+                            <img style="width:90px;" src="imagem?id=${contato.id}" alt="Imagem de ${contato.nome}">
+                        </td>
                         <td>${contato.email}</td>
                         <td>${contato.tipo}</td>
                         <td>
                             <div style="display:flex; justify-content: space-evenly;">
-                                <a href="pessoa?id=${contato.id}&acao=Remover">
-                                    <img src="imagens/excluir.png" alt="Imagem de icone de lixeira para excluir registro" title="Excluir registro">
-                                </a>
-                                <button type="submit" style="border: none; background-color: transparent;" onclick="atribuirRedirect('cadastro', '${contato.id}', '${contato.nome}', '${contato.email}', '${contato.tipo}')">
+                                <button type="submit" style="border: none; background-color: transparent;" onclick="excluirPessoa('${contato.id}')">
+                                    <img src="imagens/excluir.png" alt="Imagem de icone de lixeira para excluir registro"  title="Excluir registro"/>
+                                </button>
+                                <button type="submit" style="border: none; background-color: transparent;" onclick="editarPessoa('${contato.id}', '${contato.nome}', '${contato.email}', '${contato.tipo}')">
                                     <img src="imagens/editar.png" alt="Imagem de icone de Lápis para editar registro"  title="Editar registro"/>
                                 </button>
                             </div>
@@ -77,36 +84,42 @@
     </form>
 </div>
 <script>
-        function atribuirRedirect(par, idCont, nmCont, emailCont, tipoCont) {
+
+        function cadastrarPessoa() {
+           redirect(document.getElementById('form'), 'cadastro');
+        }
+
+        function excluirPessoa(idPessoa) {
+            var idContato = document.getElementById("idContato");
+            idContato.value = idPessoa;
+            var acao = document.getElementById("acao");
+            acao.value = 'Remover'
+        }
+
+        function editarPessoa(idCont, nmCont, emailCont, tipoCont) {
             var form = document.getElementById("form");
             form.action = 'redirect'
             form.method = 'post'
-            var elemento = document.getElementById("redirect");
-            elemento.value = par
+            document.getElementById("redirect").value = 'cadastro';
 
             if(idCont) {
-                var contatoEditar = document.getElementById("idContato");
-                contatoEditar.value = idCont
-                var nmContatoEditar = document.getElementById("nomeContato");
-                nmContatoEditar.value = nmCont
-                var emailContatoEditar = document.getElementById("emailContato");
-                emailContatoEditar.value = emailCont
-                var tipoContatoEditar = document.getElementById("tipoContato");
-                tipoContatoEditar.value = tipoCont
+                document.getElementById("idContato").value    = idCont;
+                document.getElementById("nomeContato").value  = nmCont
+                document.getElementById("emailContato").value = emailCont
+                document.getElementById("tipoContato").value  = tipoCont
             }
         }
 
-        function buscarTodasPessoas(formParam) {
-            location.href=formParam+"?acao=Listar&tipoBusca=TODOS";
-        }
+        function buscarPessoas(tipoBuscaParam, valorBuscaParam) {
+           document.getElementById("tipoBusca").value = tipoBuscaParam
+           var valorBusca = document.getElementById("valorBusca");
 
-        function buscarPessoasPorCategoria(formParam, valorParam) {
-            location.href=formParam+"?acao=Listar&tipoBusca=TIPO&valorBusca="+valorParam;
-        }
-        
-        function buscarPessoaPorFragmentoTexto(formParam) {
-            let texto = document.getElementById('fragmentoTexto').value.trim();
-            location.href=formParam+"?acao=Listar&tipoBusca=FRAGMENTO_TEXTO&valorBusca="+texto;
+           if(tipoBuscaParam == 'TIPO') {
+                valorBusca.value = valorBuscaParam
+           } else {
+                valorBusca.value = document.getElementById('fragmentoTexto').value.trim()
+           }
+           document.getElementById('form').submit()
         }
         
         function validarQuantidadeCaracteres() {

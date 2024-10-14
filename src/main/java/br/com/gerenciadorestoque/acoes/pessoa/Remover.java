@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_DESCONHECIDO;
 import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_TRANSACAO_DB;
@@ -20,11 +21,11 @@ import static br.com.gerenciadorestoque.util.Constantes.MENSAGEM_ERRO_TRANSACAO_
 
 public class Remover implements IAcao {
     private final Logger logger = LogManager.getLogger(Remover.class);
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp, Map.Entry<Map<String, String>, byte[]> parametros) {
         try(Connection connection = ConnectionFactory.getConnection()) {
-            Long idContatoUsuario = Long.valueOf(req.getParameter("id"));
+            String idContatoUsuario = parametros.getKey().get("idContato").isBlank() ? "" : parametros.getKey().get("idContato");
             PessoaDAO dao = new PessoaDAO(connection);
-            String retorno = dao.excluirContatoUsuario(idContatoUsuario);
+            String retorno = dao.excluirContatoUsuario(Long.valueOf(idContatoUsuario));
             RequestUtil.inputRetornoSucesso(req, retorno);
             List<Pessoa> contatos = dao.buscarContatosUsuarios();
             req.setAttribute("contatos", contatos);
@@ -35,6 +36,6 @@ public class Remover implements IAcao {
             logger.error(e.getMessage());
             RequestUtil.inputRetornoErro(req, MENSAGEM_ERRO_DESCONHECIDO);
         }
-        return "/WEB-INF/pessoa/lista.jsp";
+        return "lista";
     }
 }
