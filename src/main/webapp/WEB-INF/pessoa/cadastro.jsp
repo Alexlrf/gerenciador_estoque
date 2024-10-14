@@ -1,57 +1,67 @@
 <%@ page  pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="js/redirect.js"></script>
 
 <jsp:include page="/shareds_jsp/header.jsp" />
 
 <c:set var="retorno" value="${ret}" scope="request" />
 <jsp:include page="/shareds_jsp/mensagemRetorno.jsp" />
 
-<form action="pessoa" method="post" id="form">
+<form action="pessoa" method="post" id="form" enctype="multipart/form-data">
 
-    <input type="hidden" id="acao"      name="acao"      value="Cadastrar">
-    <input type="hidden" id="idContato" name="idContato" value="${param.idContato}">
-    <input type="hidden" id="redirect"  name="redirect"  value="">
+    <input type="hidden" id="temArquivo" name="temArquivo"  value="SIM">
+    <input type="hidden" id="acao"       name="acao"        value="Cadastrar">
+    <input type="hidden" id="idContato"  name="idContato"   value="${idContato}">
+    <input type="hidden" id="redirect"   name="redirect"    value="lista">
+    <input type="hidden" id="tipoBusca"  name="tipoBusca"   value="">
 
     <div class="container d-flex flex-column">
 
-        <h2 class="mb-5" >${param.tipoContato.length() > 0 ? 'Edição' : 'Cadastro'} de Pessoa</h2>
-        <input class="form-control col-10 mb-4" type="text" name="nome" placeholder="Digite o nome" value="${param.nomeContato}" />
+        <div class="container d-flex justify-content-between">
+            <h2 class="mb-5" >${tipoContato.length() > 0 ? 'Edição' : 'Cadastro'} de Pessoa</h2>
+           <c:if test="${tipoContato.length() > 0}">
+               <img style="width:150px; margin-top:-40" src="imagem?id=${idContato}" alt="Imagem de ${nomeContato}">
+           </c:if>
+        </div>
+
+        <input class="form-control col-10 mb-4" type="text" name="nome" placeholder="Digite o nome" value="${nomeContato}" />
 
         <div class="d-flex justify-content-between mb-5">
-            <input class="form-control me-4" type="email" name="email" placeholder="Digite o e-mail" value="${param.emailContato}" />
+            <input class="form-control me-4" type="email" name="email" placeholder="Digite o e-mail" value="${emailContato}" />
 
-            <select class="form-select" name="tipo" value="${param.tipoContato}">
-                <option value="${param.tipoContato.length() > 0 ? param.tipoContato : ''}">
-                    ${param.tipoContato.length() > 0 ? param.tipoContato : 'Tipo'}
+            <select class="form-select" name="tipo" value="${tipoContato}">
+                <option value="${tipoContato.length() > 0 ? tipoContato : ''}">
+                    ${tipoContato.length() > 0 ? tipoContato : 'Tipo'}
                 </option>
                 <option value="Cliente">Cliente</option>
                 <option value="Fornecedor">Fornecedor</option>
             </select>
         </div>
         <div class="container d-flex justify-content-end">
-            <input class="col-2 me-2" type="submit" value="Lista de Usuários" onclick="redirection('lista')"/>
-            <input class="col-2" type="submit" value="${param.tipoContato.length() > 0 ? 'Alterar' : 'Salvar'}" onclick="atribuirAcao()">
+            <input class="col-2 me-2" type="submit" value="Lista de Usuários" onclick="irParaListaPessoa()"/>
+            <input class="col-2" type="submit" value="${tipoContato.length() > 0 ? 'Alterar' : 'Salvar'}" onclick="atribuirAcao()">
         </div>
+        <input type="file" id="imgContato" name="imgContato"/>
     </div>
 </form>
 
 <script>
+
     function atribuirAcao() {
         var idCont = document.getElementById("idContato");
         if(idCont.value > 0) {
-           var acao = document.getElementById("acao");
-           acao.value = 'Alterar'
+           document.getElementById("acao").value = 'Alterar'
+        }
+        if(!document.getElementById("imgContato").files[0]) {
+            document.getElementById("temArquivo").value = 'NAO';
         }
     }
 
-    function redirection(par) {
-        var form = document.getElementById("form");
-        form.action = 'redirect';
-        form.method = 'post';
-        var elemento = document.getElementById("redirect");
-        elemento.value = par;
-        var elemento = document.getElementById("acao");
-        elemento.value = '';
+    function irParaListaPessoa() {
+       document.getElementById("acao").value      = 'Listar';
+       document.getElementById("redirect").value  = 'lista';
+       document.getElementById("tipoBusca").value = 'TODOS';
+       document.getElementById("temArquivo").value = 'NAO';
     }
 
 </script>
